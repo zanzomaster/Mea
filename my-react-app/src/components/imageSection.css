@@ -1,0 +1,20 @@
+.image-section-scroll {
+  display: flex;
+  justify-content: center; /* จัดให้อยู่ตรงกลางแนวนอน */
+  align-items: center;     /* จัดให้อยู่ตรงกลางแนวตั้ง */
+  overflow-x: auto;
+  gap: 24px;               /* เพิ่มช่องว่างระหว่างรูป */
+  padding: 32px 0;         /* เพิ่ม padding ให้ดูใหญ่ขึ้น */
+  scrollbar-width: thin;
+  width: 100%;
+  min-height: 350px;       /* กำหนดความสูงขั้นต่ำ */
+  padding-top: 100px; /* เพิ่ม padding ด้านบน */
+}
+
+.image-section-img {
+  height: 500px;           /* ขยายขนาดรูป */
+  width: auto;
+  object-fit: cover;
+  border-radius: 16px;     /* เพิ่มความโค้งมน */
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15); /* เพิ่มเงา */
+}

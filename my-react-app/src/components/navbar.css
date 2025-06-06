@@ -1,0 +1,91 @@
+.navbar {
+  background: #fde1c7;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  height: 80px;
+  justify-content: space-between;
+  font-family: sans-serif;
+  margin: 0;
+  border-radius: 0;
+  box-sizing: border-box;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navbar-logo {
+  height: 48px;
+  margin-right: 8px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.navbar-subtitle {
+  font-size: 14px;
+  color: #a86b2c;
+}
+
+.navbar-title {
+  font-weight: bold;
+  color: #a86b2c;
+  font-size: 18px;
+}
+
+.navbar-en-title {
+  font-size: 12px;
+  color: #a86b2c;
+}
+
+.navbar-center {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  font-size: 18px;
+  color: #6d5c4d;
+}
+
+.navbar-menu-item {
+  cursor: pointer;
+  position: relative;
+}
+
+.navbar-menu-arrow {
+  font-size: 12px;
+  margin-left: 2px;
+}
+
+.navbar-right {
+  display: flex;
+  gap: 12px;
+  margin-left: 400px;
+}
+
+.navbar-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 500;
+  box-shadow: 0 1px 2px #0001;
+  transition: filter 0.1s;
+}
+
+.navbar-btn.login {
+  background: #fff;
+  color: #6d5c4d;
+}
+
+.navbar-btn.signup {
+  background: #f47c20;
+  color: #fff;
+}
