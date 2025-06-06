@@ -1,13 +1,16 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./profile.css";
 
 const Profile: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="profile-bg">
       <div className="profile-sidebar">
-        <button className="profile-sidebar-btn active">โปรไฟล์</button>
-        <button className="profile-sidebar-btn">การศึกษา</button>
-        <button className="profile-sidebar-btn">กล่องจดหมาย</button>
+        <button className="profile-sidebar-btn" onClick={() => navigate("/profile")}>โปรไฟล์</button>
+        <button className="profile-sidebar-btn" onClick={() => navigate("/education")}>การศึกษา</button>
+        <button className="profile-sidebar-btn" onClick={() => navigate("/mailbox")}>กล่องจดหมาย</button>
       </div>
       <div className="profile-form-container">
         <form className="profile-form">

@@ -6,6 +6,8 @@ import Search from './components/search'
 import Register from './components/Register'
 import Login from './components/Login';
 import Profile from './components/Profile';
+import Education from "./components/Education";
+import Mailbox from "./components/Mailbox";
 
 
 function App() {
@@ -28,6 +30,9 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/education" element={<Education />} />
+        <Route path="/mailbox" element={<Mailbox />} />
+        {/* เพิ่มเส้นทางอื่น ๆ ตามต้องการ */}
       </Routes>
     </Router>
   );

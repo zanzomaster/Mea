@@ -59,9 +59,9 @@ const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u:
             {open && (
               <div className="navbar-dropdown-menu">
                 <Link to="/profile" className="navbar-dropdown-item">โปรไฟล์</Link>
-                <div className="navbar-dropdown-item">ผลการเรียน</div>
-                <div className="navbar-dropdown-item">กล่องจดหมาย</div>
-                <div className="navbar-dropdown-item">เปลี่ยนรหัสผ่าน</div>
+                <Link to="/education" className="navbar-dropdown-item">การศึกษา</Link>
+                <Link to="/mailbox" className="navbar-dropdown-item">กล่องจดหมาย</Link>
+                <Link to="/change-password" className="navbar-dropdown-item">เปลี่ยนรหัสผ่าน</Link>
                 <div
                   className="navbar-dropdown-item logout"
                   onClick={() => setUser(null)}

@@ -108,15 +108,17 @@
 }
 
 .navbar-dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+  background: #ffb381;
+  border-radius: 12px;
+  padding: 16px 0 8px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   position: absolute;
-  top: 100%;
+  top: 32px; /* ปรับจาก 40px เป็น 32px */
   right: 0;
-  background: #ffdab3;
-  border-radius: 0 0 12px 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  min-width: 170px;
-  padding: 8px 0;
-  z-index: 100;
+  z-index: 10;
   animation: fadeIn 0.2s;
 }
 
@@ -132,11 +134,16 @@
 }
 
 .navbar-dropdown-item {
-  padding: 8px 20px;
-  color: #333;
+  padding: 8px 24px;
+  white-space: nowrap;
+  color: #222;
+  text-decoration: none;
   cursor: pointer;
-  transition: background 0.15s;
-  font-size: 1rem;
+  font-size: 1.05rem;
+  transition: background 0.12s;
+  background: transparent;
+  border: none;
+  text-align: left;
 }
 
 .navbar-dropdown-item:hover {
@@ -144,5 +151,8 @@
 }
 
 .navbar-dropdown-item.logout {
-  color: #ff9800;
+  color: #f47c20;
+  font-weight: bold;
+  text-align: left;
+  grid-column: auto;
 }
