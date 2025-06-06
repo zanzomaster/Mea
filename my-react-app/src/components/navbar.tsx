@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./navbar.css";
 
 const Navbar = () => {
@@ -6,7 +7,7 @@ const Navbar = () => {
       {/* Left: Logo & Title */}
       <div className="navbar-left">
         <img
-          src="https://ap-southeast-2-seek-apac.graphassets.com/AEzBCRO50TYyqbV6XzRDQz/9xFH8cAERaaTTHDVwS5Y"
+          src="https://mapapi.mea.or.th/static/media/logo3.8549861c.png"
           alt="MEA Logo"
           className="navbar-logo"
         />
@@ -31,7 +32,7 @@ const Navbar = () => {
       {/* Right: Buttons */}
       <div className="navbar-right">
         <button className="navbar-btn login">เข้าสู่ระบบ</button>
-        <button className="navbar-btn signup">สมัคร</button>
+        <Link to="/register" className="navbar-btn signup">สมัคร</Link>
       </div>
     </nav>
   );
