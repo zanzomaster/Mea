@@ -44,3 +44,43 @@
 .search-bar-btn:hover {
   background: #ffb97a;
 }
+
+.zone-tag-box {
+  background: #ff8800;
+  border-radius: 10px;
+  padding: 12px;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.zone-tag-search {
+  width: 180px;
+  border-radius: 6px;
+  border: none;
+  padding: 6px 12px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.zone-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.zone-tag {
+  background: #ffe5cc;
+  color: #ff9800;
+  border-radius: 8px;
+  padding: 6px 16px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.zone-tag.selected,
+.zone-tag:hover {
+  background: #ffd2ad;
+  color: #fff;
+}

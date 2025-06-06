@@ -1,0 +1,62 @@
+.zone-select-container {
+  width: 340px;
+  font-size: 1rem;
+}
+
+.zone-select-header {
+  margin-bottom: 4px;
+}
+
+.zone-select-dropdown {
+  background: #ffe5cc;
+  border: 2px solid #ff9800;
+  color: #ff9800;
+  border-radius: 8px;
+  padding: 4px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  outline: none;
+}
+
+.zone-select-box {
+  background: #ff8800;
+  border-radius: 10px;
+  padding: 12px 12px 12px 12px;
+  margin-top: 2px;
+}
+
+.zone-select-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.zone-select-input {
+  flex: 1;
+  border-radius: 6px;
+  border: none;
+  padding: 6px 12px;
+  font-size: 1rem;
+  background: #fff;
+}
+
+.zone-select-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.zone-select-tag {
+  background: #ffe5cc;
+  color: #ff9800;
+  border-radius: 8px;
+  padding: 6px 16px;
+  margin-bottom: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.zone-select-tag:hover {
+  background: #ffd2ad;
+}

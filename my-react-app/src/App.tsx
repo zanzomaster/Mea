@@ -9,7 +9,7 @@ import Profile from './components/Profile';
 import Education from "./components/Education";
 import Mailbox from "./components/Mailbox";
 import Internship from "./components/Internship";
-
+import ZoneSelect from "./components/ZoneSelect";
 
 function App() {
   // state สำหรับจำลองการล็อกอิน

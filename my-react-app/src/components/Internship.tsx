@@ -38,7 +38,7 @@ const Internship: React.FC = () => {
         <div className="internship-list-bg">
           {mockInternships.map((item, idx) => (
             <div className="internship-item" key={item.id}>
-              <img src="/logo192.png" alt="logo" className="internship-logo" />
+              <img src="https://mapapi.mea.or.th/static/media/logo3.8549861c.png" alt="logo" className="internship-logo" />
               <div className="internship-info">
                 <div className="internship-office">{item.office}</div>
                 <div>{item.desc}</div>
