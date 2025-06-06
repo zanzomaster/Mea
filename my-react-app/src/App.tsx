@@ -1,13 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState } from "react";
 import Navbar from './components/navbar'
 import ImageSection from './components/imageSection'
 import Search from './components/search'
 import Register from './components/Register'
+import Login from './components/Login';
 
 function App() {
+  // state สำหรับจำลองการล็อกอิน
+  const [user, setUser] = useState<{ name: string } | null>(null);
+
   return (
     <Router>
-      <Navbar />
+      <Navbar user={user} setUser={setUser} />
       <Routes>
         <Route
           path="/"
@@ -15,11 +20,11 @@ function App() {
             <>
               <ImageSection />
               <Search />
-              {/* เนื้อหาอื่น ๆ ของหน้าแรก */}
             </>
           }
         />
         <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
       </Routes>
     </Router>
   );

@@ -80,3 +80,23 @@
   color: #ff7a00;
   text-decoration: underline;
 }
+.news-dropdown {
+  position: relative;
+}
+
+.news-dropdown .navbar-dropdown-menu {
+  display: none;
+  left: 0;
+  right: auto;
+  top: 100%;
+  min-width: 220px;
+}
+
+.news-dropdown:hover .navbar-dropdown-menu {
+  display: block;
+}
+
+.news-dropdown .navbar-menu-arrow {
+  margin-left: 4px;
+  font-size: 0.9em;
+}

@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "./navbar.css";
 
-const Navbar = () => {
+const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u: null) => void }) => {
+  const [open, setOpen] = useState(false);
+
   return (
     <nav className="navbar">
       {/* Left: Logo & Title */}
@@ -19,20 +22,61 @@ const Navbar = () => {
       </div>
 
       {/* Center: Menu */}
-      <div className="navbar-center">
-        <div className="navbar-menu-item">
-          ข่าวสาร
-          <span className="navbar-menu-arrow">▼</span>
-        </div>
-        <div className="navbar-menu-item">ขอฝึกงาน</div>
-        <div className="navbar-menu-item">ที่ทำการ</div>
-        <div className="navbar-menu-item">ติดต่อเรา</div>
-      </div>
+<div className="navbar-center">
+  <div className="navbar-menu-item news-dropdown">
+    ข่าวสาร
+    <span className="navbar-menu-arrow">▼</span>
+    <div className="navbar-dropdown-menu">
+      <div className="navbar-dropdown-item">การศึกษา</div>
+      <div className="navbar-dropdown-item">ลักษณะงานและหน้าที่ความรับผิดชอบ</div>
+      <div className="navbar-dropdown-item">ประกาศวันหยุด</div>
+      <div className="navbar-dropdown-item">เวลาทำงาน</div>
+    </div>
+  </div>
+  <div className="navbar-menu-item">ขอฝึกงาน</div>
+  <div className="navbar-menu-item">ที่ทำการ</div>
+  <div className="navbar-menu-item">ติดต่อเรา</div>
+</div>
 
       {/* Right: Buttons */}
       <div className="navbar-right">
-        <button className="navbar-btn login">เข้าสู่ระบบ</button>
-        <Link to="/register" className="navbar-btn signup">สมัคร</Link>
+        {user ? (
+          <div
+            className="navbar-user-dropdown"
+            onMouseEnter={() => setOpen(true)}
+            onMouseLeave={() => setOpen(false)}
+          >
+            <span className="navbar-user">
+              นาย{user.name}
+              <span className="navbar-user-icon">
+                <svg width="28" height="28" fill="#ff9800" viewBox="0 0 24 24">
+                  <circle cx="12" cy="8" r="4"/>
+                  <path d="M12 14c-5 0-8 2.5-8 4v2h16v-2c0-1.5-3-4-8-4z"/>
+                </svg>
+              </span>
+              <span className="navbar-caret">▼</span>
+            </span>
+            {open && (
+              <div className="navbar-dropdown-menu">
+                <div className="navbar-dropdown-item">โปรไฟล์</div>
+                <div className="navbar-dropdown-item">ผลการเรียน</div>
+                <div className="navbar-dropdown-item">กล่องจดหมาย</div>
+                <div className="navbar-dropdown-item">เปลี่ยนรหัสผ่าน</div>
+                <div
+                  className="navbar-dropdown-item logout"
+                  onClick={() => setUser(null)}
+                >
+                  ออกจากระบบ
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <>
+            <Link to="/login" className="navbar-btn login">เข้าสู่ระบบ</Link>
+            <Link to="/register" className="navbar-btn signup">สมัคร</Link>
+          </>
+        )}
       </div>
     </nav>
   );
