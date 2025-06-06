@@ -5,6 +5,8 @@ import ImageSection from './components/imageSection'
 import Search from './components/search'
 import Register from './components/Register'
 import Login from './components/Login';
+import Profile from './components/Profile';
+
 
 function App() {
   // state สำหรับจำลองการล็อกอิน
@@ -25,6 +27,7 @@ function App() {
         />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );

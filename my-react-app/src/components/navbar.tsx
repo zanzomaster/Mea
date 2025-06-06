@@ -58,7 +58,7 @@ const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u:
             </span>
             {open && (
               <div className="navbar-dropdown-menu">
-                <div className="navbar-dropdown-item">โปรไฟล์</div>
+                <Link to="/profile" className="navbar-dropdown-item">โปรไฟล์</Link>
                 <div className="navbar-dropdown-item">ผลการเรียน</div>
                 <div className="navbar-dropdown-item">กล่องจดหมาย</div>
                 <div className="navbar-dropdown-item">เปลี่ยนรหัสผ่าน</div>
