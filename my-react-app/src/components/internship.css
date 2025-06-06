@@ -1,0 +1,64 @@
+.internship-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin: 32px 0 16px 0;
+}
+
+.internship-list-bg {
+  background: #ffe5cc;
+  border-radius: 10px;
+  padding: 24px 0;
+  margin-top: 0; /* เดิม 24px แก้เป็น 0 */
+}
+
+.internship-item {
+  background: #ffd2ad;
+  border-radius: 8px;
+  margin: 0 24px 18px 24px;
+  padding: 18px 18px 18px 0;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #f7cfa6;
+}
+
+.internship-item:last-child {
+  border-bottom: none;
+}
+
+.internship-logo {
+  margin: 0 18px;
+  width: 64px;
+  height: 64px;
+}
+
+.internship-info {
+  flex: 1;
+}
+
+.internship-office {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.internship-location-row {
+  display: flex;
+  align-items: center;
+  margin: 4px 0;
+}
+
+.internship-address {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.internship-count-row {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.internship-arrow {
+  display: flex;
+  align-items: center;
+}

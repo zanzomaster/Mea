@@ -22,21 +22,21 @@ const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u:
       </div>
 
       {/* Center: Menu */}
-<div className="navbar-center">
-  <div className="navbar-menu-item news-dropdown">
-    ข่าวสาร
-    <span className="navbar-menu-arrow">▼</span>
-    <div className="navbar-dropdown-menu">
-      <div className="navbar-dropdown-item">การศึกษา</div>
-      <div className="navbar-dropdown-item">ลักษณะงานและหน้าที่ความรับผิดชอบ</div>
-      <div className="navbar-dropdown-item">ประกาศวันหยุด</div>
-      <div className="navbar-dropdown-item">เวลาทำงาน</div>
-    </div>
-  </div>
-  <div className="navbar-menu-item">ขอฝึกงาน</div>
-  <div className="navbar-menu-item">ที่ทำการ</div>
-  <div className="navbar-menu-item">ติดต่อเรา</div>
-</div>
+      <div className="navbar-center">
+        <div className="navbar-menu-item news-dropdown">
+          ข่าวสาร
+          <span className="navbar-menu-arrow">▼</span>
+          <div className="navbar-dropdown-menu">
+            <div className="navbar-dropdown-item">การศึกษา</div>
+            <div className="navbar-dropdown-item">ลักษณะงานและหน้าที่ความรับผิดชอบ</div>
+            <div className="navbar-dropdown-item">ประกาศวันหยุด</div>
+            <div className="navbar-dropdown-item">เวลาทำงาน</div>
+          </div>
+        </div>
+        <Link to="/" className="navbar-menu-item">ขอฝึกงาน</Link>
+        <div className="navbar-menu-item">ที่ทำการ</div>
+        <div className="navbar-menu-item">ติดต่อเรา</div>
+      </div>
 
       {/* Right: Buttons */}
       <div className="navbar-right">

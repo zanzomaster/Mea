@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Profile from './components/Profile';
 import Education from "./components/Education";
 import Mailbox from "./components/Mailbox";
+import Internship from "./components/Internship";
 
 
 function App() {
@@ -23,7 +24,8 @@ function App() {
           element={
             <>
               <ImageSection />
-              <Search />
+              {/* <Search /> */}
+              <Internship />
             </>
           }
         />
