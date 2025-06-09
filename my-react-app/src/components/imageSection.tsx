@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./imageSection.css";
 
 const images = [
@@ -9,6 +9,13 @@ const images = [
 
 const ImageSection: React.FC = () => {
   const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
 
   const goTo = (idx: number) => setCurrent(idx);
 

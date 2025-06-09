@@ -19,6 +19,7 @@ import Contact from "./components/Contact";
 import ChangePassword from "./components/ChangePassword";
 import Management from "./components/Management";
 
+
 function App() {
   // state สำหรับจำลองการล็อกอิน
   const [user, setUser] = useState<{ name: string } | null>(null);
