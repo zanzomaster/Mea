@@ -17,6 +17,7 @@ import NewsTime from "./components/news/Time";
 import Office from "./components/Office";
 import Contact from "./components/Contact";
 import ChangePassword from "./components/ChangePassword";
+import Management from "./components/Management";
 
 function App() {
   // state สำหรับจำลองการล็อกอิน
@@ -48,6 +49,7 @@ function App() {
         <Route path="/Office" element={<Office />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/management" element={<Management />} />
         {/* เพิ่มเส้นทางอื่น ๆ ตามต้องการ */}
       </Routes>
     </Router>

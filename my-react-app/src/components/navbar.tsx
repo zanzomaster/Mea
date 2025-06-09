@@ -42,6 +42,7 @@ const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u:
         <Link to="/" className="navbar-menu-item">ขอฝึกงาน</Link>
         <Link to="/Office" className="navbar-menu-item">ที่ทำการ</Link>
         <Link to="/contact" className="navbar-menu-item">ติดต่อเรา</Link>
+        <Link to="/management" className="navbar-menu-item">การจัดการ</Link>
       </div>
 
       {/* Right: Buttons */}

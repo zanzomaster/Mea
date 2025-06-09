@@ -1,0 +1,93 @@
+.management-bg {
+  background: #fff;
+  min-height: 100vh;
+  padding-top: 32px;
+}
+
+.management-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.management-container {
+  max-width: 700px;
+  margin: 0 auto;
+  background: none;
+  padding: 0;
+}
+
+.management-content {
+  background: #ffe3cf;
+  border-radius: 12px;
+  padding: 24px 0 24px 0;
+  min-height: 500px;
+  position: relative;
+}
+
+.management-zone-btn-row {
+  margin-left: 32px;
+  margin-bottom: 16px;
+}
+
+.management-zone-btn {
+  background: #ff9800;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 4px 24px;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.management-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.management-item {
+  display: flex;
+  align-items: center;
+  background: #ffb381;
+  border-radius: 8px;
+  padding: 12px 18px;
+  margin: 0 32px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #6d5c4d;
+  justify-content: space-between;
+}
+
+.management-item-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.management-avatar {
+  background: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  border: 2px solid #ff9800;
+}
+
+.management-pagination {
+  text-align: center;
+  margin-top: 32px;
+  color: #ff9800;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.management-pagination-arrow {
+  font-size: 12px;
+  margin-left: 4px;
+}
