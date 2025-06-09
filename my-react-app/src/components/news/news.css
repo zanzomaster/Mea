@@ -1,0 +1,16 @@
+.news-page {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 32px;
+  gap: 16px;
+  padding-top: 70px;
+}
+
+.news-page h1 {
+  margin-bottom: 12px;
+}
+
+.news-page p {
+  margin: 0;
+}

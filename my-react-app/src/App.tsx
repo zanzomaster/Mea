@@ -10,6 +10,11 @@ import Education from "./components/Education";
 import Mailbox from "./components/Mailbox";
 import Internship from "./components/Internship";
 import ZoneSelect from "./components/ZoneSelect";
+import NewsEducation from "./components/news/Education";
+import NewsJob from "./components/news/Job";
+import NewsHoliday from "./components/news/Holiday";
+import NewsTime from "./components/news/Time";
+import Office from "./components/Office";
 
 function App() {
   // state สำหรับจำลองการล็อกอิน
@@ -34,6 +39,11 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/education" element={<Education />} />
         <Route path="/mailbox" element={<Mailbox />} />
+        <Route path="/news/education" element={<NewsEducation />} />
+        <Route path="/news/job" element={<NewsJob />} />
+        <Route path="/news/holiday" element={<NewsHoliday />} />
+        <Route path="/news/time" element={<NewsTime />} />
+        <Route path="/Office" element={<Office />} />
         {/* เพิ่มเส้นทางอื่น ๆ ตามต้องการ */}
       </Routes>
     </Router>

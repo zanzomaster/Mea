@@ -1,0 +1,9 @@
+/* ขยับเนื้อหาทั้งหมดลงมาให้ไม่ชน navbar */
+.office-container {
+  margin-top: 64px; /* ปรับค่าตามความสูง navbar */
+}
+
+/* ตัวอย่างสำหรับ h2 หรือหัวข้อ */
+.office-container h2 {
+  margin-top: 32px;
+}

@@ -27,14 +27,14 @@ const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u:
           ข่าวสาร
           <span className="navbar-menu-arrow">▼</span>
           <div className="navbar-dropdown-menu">
-            <div className="navbar-dropdown-item">การศึกษา</div>
-            <div className="navbar-dropdown-item">ลักษณะงานและหน้าที่ความรับผิดชอบ</div>
-            <div className="navbar-dropdown-item">ประกาศวันหยุด</div>
-            <div className="navbar-dropdown-item">เวลาทำงาน</div>
+            <Link to="/news/education" className="navbar-dropdown-item">การศึกษา</Link>
+            <Link to="/news/job" className="navbar-dropdown-item">ลักษณะงานและหน้าที่ความรับผิดชอบ</Link>
+            <Link to="/news/holiday" className="navbar-dropdown-item">ประกาศวันหยุด</Link>
+            <Link to="/news/time" className="navbar-dropdown-item">เวลาทำงาน</Link>
           </div>
         </div>
         <Link to="/" className="navbar-menu-item">ขอฝึกงาน</Link>
-        <div className="navbar-menu-item">ที่ทำการ</div>
+        <Link to="/Office" className="navbar-menu-item">ที่ทำการ</Link>
         <div className="navbar-menu-item">ติดต่อเรา</div>
       </div>
 
