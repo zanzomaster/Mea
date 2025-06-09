@@ -56,6 +56,13 @@
 .navbar-menu-item {
   cursor: pointer;
   position: relative;
+  text-decoration: none; /* เพิ่มบรรทัดนี้ */
+  color: #6d5c4d;        /* เพิ่มบรรทัดนี้เพื่อให้สีเหมือนเดิม */
+}
+
+.navbar-menu-item:visited {
+  text-decoration: none; /* เพิ่มบรรทัดนี้ */
+  color: #6d5c4d;        /* เพิ่มบรรทัดนี้ */
 }
 
 .navbar-menu-arrow {
@@ -78,6 +85,7 @@
   font-weight: 500;
   box-shadow: 0 1px 2px #0001;
   transition: filter 0.1s;
+  text-decoration: none !important; /* ป้องกัน underline */
 }
 
 .navbar-btn.login {
@@ -110,6 +118,7 @@
 .navbar-dropdown-menu {
   display: flex;
   flex-direction: column;
+  align-items: stretch; /* เพิ่มบรรทัดนี้ */
   min-width: 240px;
   background: #ffb381;
   border-radius: 12px;
@@ -134,6 +143,8 @@
 }
 
 .navbar-dropdown-item {
+  display: block;      /* เพิ่มบรรทัดนี้ */
+  width: 80%;         /* เพิ่มบรรทัดนี้ */
   padding: 8px 24px;
   white-space: nowrap;
   color: #222;

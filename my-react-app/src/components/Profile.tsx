@@ -8,7 +8,7 @@ const Profile: React.FC = () => {
   return (
     <div className="profile-bg">
       <div className="profile-sidebar">
-        <button className="profile-sidebar-btn" onClick={() => navigate("/profile")}>โปรไฟล์</button>
+        <button className="profile-sidebar-btn active" onClick={() => navigate("/profile")}>โปรไฟล์</button>
         <button className="profile-sidebar-btn" onClick={() => navigate("/education")}>การศึกษา</button>
         <button className="profile-sidebar-btn" onClick={() => navigate("/mailbox")}>กล่องจดหมาย</button>
       </div>

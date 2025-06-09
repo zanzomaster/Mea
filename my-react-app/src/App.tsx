@@ -15,6 +15,8 @@ import NewsJob from "./components/news/Job";
 import NewsHoliday from "./components/news/Holiday";
 import NewsTime from "./components/news/Time";
 import Office from "./components/Office";
+import Contact from "./components/Contact";
+import ChangePassword from "./components/ChangePassword";
 
 function App() {
   // state สำหรับจำลองการล็อกอิน
@@ -44,6 +46,8 @@ function App() {
         <Route path="/news/holiday" element={<NewsHoliday />} />
         <Route path="/news/time" element={<NewsTime />} />
         <Route path="/Office" element={<Office />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/change-password" element={<ChangePassword />} />
         {/* เพิ่มเส้นทางอื่น ๆ ตามต้องการ */}
       </Routes>
     </Router>

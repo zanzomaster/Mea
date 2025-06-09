@@ -1,9 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./navbar.css";
 
 const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u: null) => void }) => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate(); // เพิ่ม useNavigate
+
+  const handleLogout = () => {
+    setUser(null);
+    navigate("/");
+  };
 
   return (
     <nav className="navbar">
@@ -35,7 +41,7 @@ const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u:
         </div>
         <Link to="/" className="navbar-menu-item">ขอฝึกงาน</Link>
         <Link to="/Office" className="navbar-menu-item">ที่ทำการ</Link>
-        <div className="navbar-menu-item">ติดต่อเรา</div>
+        <Link to="/contact" className="navbar-menu-item">ติดต่อเรา</Link>
       </div>
 
       {/* Right: Buttons */}
@@ -64,7 +70,7 @@ const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u:
                 <Link to="/change-password" className="navbar-dropdown-item">เปลี่ยนรหัสผ่าน</Link>
                 <div
                   className="navbar-dropdown-item logout"
-                  onClick={() => setUser(null)}
+                  onClick={handleLogout}
                 >
                   ออกจากระบบ
                 </div>

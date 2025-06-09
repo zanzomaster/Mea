@@ -10,7 +10,7 @@ const Mailbox: React.FC = () => {
       <div className="profile-sidebar">
         <button className="profile-sidebar-btn" onClick={() => navigate("/profile")}>โปรไฟล์</button>
         <button className="profile-sidebar-btn" onClick={() => navigate("/education")}>การศึกษา</button>
-        <button className="profile-sidebar-btn" onClick={() => navigate("/mailbox")}>กล่องจดหมาย</button>
+        <button className="profile-sidebar-btn active" onClick={() => navigate("/mailbox")}>กล่องจดหมาย</button>
       </div>
       <div className="profile-form-container">
         <div style={{ width: "100%" }}>
