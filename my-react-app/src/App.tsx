@@ -18,6 +18,8 @@ import Office from "./components/Office";
 import Contact from "./components/Contact";
 import ChangePassword from "./components/ChangePassword";
 import Management from "./components/Management";
+import SendInternship from "./components/sendInternship";
+import SendManagement from "./components/sendManagement";
 
 
 function App() {
@@ -51,6 +53,8 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/management" element={<Management />} />
+        <Route path="/send/:id" element={<SendInternship />} />
+        <Route path="/sendmanagement/:id" element={<SendManagement />} />
         {/* เพิ่มเส้นทางอื่น ๆ ตามต้องการ */}
       </Routes>
     </Router>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // เพิ่ม
 import Search from "./search";
 import "./internship.css";
 
@@ -30,6 +31,12 @@ const mockInternships = [
 ];
 
 const Internship: React.FC = () => {
+  const navigate = useNavigate(); // เพิ่ม
+
+  const handleClick = (id: number) => {
+    navigate(`/send/${id}`); // ไปหน้า send พร้อม id
+  };
+
   return (
     <div style={{ background: "#fff", minHeight: "100vh", padding: "0 0 40px 0" }}>
       <div className="internship-title"></div>
@@ -37,7 +44,12 @@ const Internship: React.FC = () => {
         <Search />
         <div className="internship-list-bg">
           {mockInternships.map((item, idx) => (
-            <div className="internship-item" key={item.id}>
+            <div
+              className="internship-item"
+              key={item.id}
+              style={{ cursor: "pointer" }}
+              onClick={() => handleClick(item.id)}
+            >
               <img src="https://mapapi.mea.or.th/static/media/logo3.8549861c.png" alt="logo" className="internship-logo" />
               <div className="internship-info">
                 <div className="internship-office">{item.office}</div>

@@ -15,16 +15,18 @@ const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u:
     <nav className="navbar">
       {/* Left: Logo & Title */}
       <div className="navbar-left">
-        <img
-          src="https://mapapi.mea.or.th/static/media/logo3.8549861c.png"
-          alt="MEA Logo"
-          className="navbar-logo"
-        />
-        <div>
-          <div className="navbar-subtitle">เว็บไซต์ของฝึกงาน</div>
-          <div className="navbar-title">การไฟฟ้านครหลวง</div>
-          <div className="navbar-en-title">Metropolitan Electricity Authority</div>
-        </div>
+        <Link to="/" className="navbar-logo-link" style={{ display: "flex", alignItems: "center", textDecoration: "none", color: "inherit" }}>
+          <img
+            src="https://mapapi.mea.or.th/static/media/logo3.8549861c.png"
+            alt="MEA Logo"
+            className="navbar-logo"
+          />
+          <div>
+            <div className="navbar-subtitle">เว็บไซต์ของฝึกงาน</div>
+            <div className="navbar-title">การไฟฟ้านครหลวง</div>
+            <div className="navbar-en-title">Metropolitan Electricity Authority</div>
+          </div>
+        </Link>
       </div>
 
       {/* Center: Menu */}
