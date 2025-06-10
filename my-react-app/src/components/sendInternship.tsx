@@ -19,72 +19,44 @@ const SendInternship: React.FC = () => {
   const data = mockInternships.find((item) => item.id === Number(id));
 
   return (
-    <div style={{ background: "#fff", minHeight: "100vh", padding: 24 }}>
+    <div className="send-internship-bg">
       <div className="internship-title" style={{ marginTop: 24 }}>ขอฝึกงาน</div>
-      <div style={{
-        maxWidth: 1200,
-        margin: "0 auto",
-        background: "#fff6f0",
-        borderRadius: 12,
-        padding: 24,
-      }}>
-        <div style={{
-          display: "flex",
-          alignItems: "flex-start",
-          background: "#fff6f0",
-          borderRadius: 12,
-          padding: 24,
-        }}>
-          <img src="https://mapapi.mea.or.th/static/media/logo3.8549861c.png" alt="logo" style={{ width: 90, height: 90, marginRight: 24 }} />
+      <div className="send-internship-container">
+        <div className="send-internship-detail">
+          <img src="https://mapapi.mea.or.th/static/media/logo3.8549861c.png" alt="logo" className="send-internship-logo" />
           <div>
-            <div style={{ fontWeight: "bold", fontSize: 20 }}>{data?.office}</div>
+            <div className="send-internship-office">{data?.office}</div>
             <div>{data?.desc}</div>
-            <div style={{ margin: "8px 0" }}>
+            <div className="send-internship-location">
               <span style={{ color: "#f47c20", marginRight: 4 }}>📍</span>
               {data?.location}
             </div>
-            <div style={{ color: "#888" }}>{data?.address}</div>
-            <div style={{ marginTop: 8 }}>
+            <div className="send-internship-address">{data?.address}</div>
+            <div className="send-internship-count">
               <span style={{ color: "#f47c20", marginRight: 4 }}>👥</span>
               จำนวน {data?.count} คน
             </div>
           </div>
         </div>
-        <form style={{ marginTop: 24 }}>
-          <div style={{ marginBottom: 12 }}>
+        <form className="send-internship-form">
+          <div className="send-internship-form-row">
             <input
               type="text"
               placeholder="อยากทำงานอะไร/เกี่ยวกับอะไร"
-              style={{
-                width: "100%",
-                padding: 10,
-                borderRadius: 6,
-                border: "1px solid #ddd",
-                fontSize: 16,
-                marginBottom: 12,
-              }}
+              className="send-internship-input"
             />
           </div>
-          <div style={{ marginBottom: 12 }}>
+          <div className="send-internship-form-row">
             <div>ส่ง transcript</div>
             <input type="file" />
           </div>
-          <div style={{ marginBottom: 12 }}>
+          <div className="send-internship-form-row">
             <div>ส่ง portfolio</div>
             <input type="file" />
           </div>
           <button
             type="submit"
-            style={{
-              background: "#f47c20",
-              color: "#fff",
-              border: "none",
-              borderRadius: 6,
-              padding: "10px 32px",
-              fontSize: 18,
-              cursor: "pointer",
-              marginTop: 12,
-            }}
+            className="send-internship-btn"
           >
             ส่ง
           </button>

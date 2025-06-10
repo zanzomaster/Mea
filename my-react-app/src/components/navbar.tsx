@@ -31,6 +31,7 @@ const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u:
 
       {/* Center: Menu */}
       <div className="navbar-center">
+        <Link to="/" className="navbar-menu-item">หน้าหลัก</Link>
         <div className="navbar-menu-item news-dropdown">
           ข่าวสาร
           <span className="navbar-menu-arrow">▼</span>
@@ -41,7 +42,6 @@ const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u:
             <Link to="/news/time" className="navbar-dropdown-item">เวลาทำงาน</Link>
           </div>
         </div>
-        <Link to="/" className="navbar-menu-item">ขอฝึกงาน</Link>
         <Link to="/Office" className="navbar-menu-item">ที่ทำการ</Link>
         <Link to="/contact" className="navbar-menu-item">ติดต่อเรา</Link>
         <Link to="/management" className="navbar-menu-item">การจัดการ</Link>

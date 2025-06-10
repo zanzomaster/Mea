@@ -84,3 +84,67 @@
   background: #ffd2ad;
   color: #fff;
 }
+
+.zone-dropdown {
+  position: relative;
+  min-width: 220px;
+  flex: 1;
+}
+
+.zone-dropdown-btn {
+  width: 400px;           /* ลดความกว้าง */
+  background: #fff;
+  border-radius: 10px;
+  padding: 8px 14px;      /* ลด padding */
+  font-size: 17px;        /* ลดขนาดตัวอักษร */
+  font-weight: 400;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;       /* ลดความสูงขั้นต่ำ */
+  box-sizing: border-box;
+}
+
+.zone-dropdown-btn:focus {
+  outline: 2px solid #ff9800;
+}
+
+.zone-dropdown-arrow {
+  margin-left: auto;
+  color: #ff9800;
+  font-size: 18px;
+}
+
+.zone-dropdown-list {
+  position: absolute;
+  left: 0;
+  top: 54px;
+  background: #ff9800;
+  border-radius: 16px;
+  padding: 18px;
+  min-width: 100%;
+  z-index: 20;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.zone-tag-selected {
+  background: #ffb36b !important;
+  border-radius: 10px;
+  padding: 2px 10px;
+  margin-right: 4px;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.zone-tag-remove {
+  color: #f44336;
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+}

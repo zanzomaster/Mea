@@ -1,0 +1,85 @@
+.send-management-bg {
+  background: #fff;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.send-management-container {
+  max-width: 700px;
+  margin: 0 auto;
+  background: #ffe3cf;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.send-management-detail {
+  background: #ffb381;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.send-management-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.send-management-avatar {
+  background: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  border: 2px solid #ff9800;
+}
+
+.send-management-gpa {
+  font-size: 15px;
+  margin-top: 4px;
+}
+
+.send-management-row {
+  margin-bottom: 8px;
+}
+
+.send-management-input {
+  margin-right: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 2px 8px;
+}
+
+.send-management-btn-row {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+.send-management-btn {
+  background: #ff9800;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 32px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.send-management-back-row {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.send-management-btn-back {
+  background: #fff;
+  color: #ff9800;
+  border: 2px solid #ff9800;
+  border-radius: 6px;
+  padding: 8px 32px;
+  font-size: 16px;
+  cursor: pointer;
+}
