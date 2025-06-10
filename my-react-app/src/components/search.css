@@ -92,7 +92,7 @@
 }
 
 .zone-dropdown-btn {
-  width: 400px;           /* ลดความกว้าง */
+  width: 400px;
   background: #fff;
   border-radius: 10px;
   padding: 8px 14px;      /* ลด padding */
@@ -102,10 +102,12 @@
   cursor: pointer;
   text-align: left;
   display: flex;
-  align-items: center;
+  align-items: flex-start;     /* ให้ tag เริ่มบน */
+  flex-wrap: wrap;            /* ขึ้นบรรทัดใหม่ */
+  overflow-y: auto;           /* เลื่อนถ้า tag เยอะ */
   gap: 8px;
-  min-height: 44px;       /* ลดความสูงขั้นต่ำ */
-  box-sizing: border-box;
+  min-height: 40px;
+  max-height: 80px;           /* จำกัดความสูง */
 }
 
 .zone-dropdown-btn:focus {
@@ -139,6 +141,9 @@
   align-items: center;
   font-weight: 500;
   font-size: 16px;
+  max-width: 90%;
+  word-break: break-word;
+  margin-bottom: 4px;
 }
 
 .zone-tag-remove {
