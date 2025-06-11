@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./navbar.css";
 
-const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u: null) => void }) => {
+const Navbar = ({ user, setUser }: { user: { name: string, role?: string } | null, setUser: (u: null) => void }) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate(); // เพิ่ม useNavigate
 
@@ -44,7 +44,10 @@ const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u:
         </div>
         <Link to="/Office" className="navbar-menu-item">ที่ทำการ</Link>
         <Link to="/contact" className="navbar-menu-item">ติดต่อเรา</Link>
-        <Link to="/management" className="navbar-menu-item">การจัดการ</Link>
+        {/* เงื่อนไขแสดงปุ่มการจัดการเฉพาะ admin */}
+        {user?.role === "ADMIN" && (
+          <Link to="/management" className="navbar-menu-item">การจัดการ</Link>
+        )}
       </div>
 
       {/* Right: Buttons */}
@@ -56,7 +59,7 @@ const Navbar = ({ user, setUser }: { user: { name: string } | null, setUser: (u:
             onMouseLeave={() => setOpen(false)}
           >
             <span className="navbar-user">
-              นาย{user.name}
+              คุณ{user.name}
               <span className="navbar-user-icon">
                 <svg width="28" height="28" fill="#ff9800" viewBox="0 0 24 24">
                   <circle cx="12" cy="8" r="4"/>
