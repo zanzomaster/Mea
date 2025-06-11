@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,7 +8,63 @@ datasource db {
 }
 
 model User {
+  id          Int          @id @default(autoincrement())
+  name        String
+  email       String       @unique
+  password    String
+  profile     Profile?
+  internships Internship[]
+  educations  Education[]
+  createdAt   DateTime     @default(now())
+}
+
+model Profile {
+  id         Int    @id @default(autoincrement())
+  user       User   @relation(fields: [userId], references: [id])
+  userId     Int    @unique
+  gender     String?
+  birthDate  DateTime?
+  nationality String?
+  religion   String?
+  phone      String?
+  englishLevel String?
+  // เพิ่ม field อื่นๆ ตามที่ต้องการ
+}
+
+model Internship {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  office    String
+  desc      String?
+  location  String?
+  address   String?
+  count     Int?
+  createdAt DateTime @default(now())
+}
+
+model Education {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  level     String
+  school    String
+  faculty   String?
+  major     String?
+  gpa       Float?
+  status    String?
+}
+
+model Zone {
   id    Int    @id @default(autoincrement())
-  name  String
-  email String @unique
+  name  String @unique
+  offices Office[]
+}
+
+model Office {
+  id      Int    @id @default(autoincrement())
+  name    String
+  address String?
+  zone    Zone   @relation(fields: [zoneId], references: [id])
+  zoneId  Int
 }
