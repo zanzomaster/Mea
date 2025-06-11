@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./profile.css";
 
-const userId = 1; // ตัวอย่าง: ควรดึงจาก auth จริง
 
 const Profile: React.FC = () => {
   const navigate = useNavigate();
+  const userId = Number(localStorage.getItem("userId")); // ดึง userId จริงจาก localStorage
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",

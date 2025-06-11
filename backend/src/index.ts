@@ -111,6 +111,57 @@ app.post("/profile", async (req: Request, res: Response) => {
   }
 });
 
+// GET education by userId (เช่น /education?userId=1)
+app.get("/education", async (req: Request, res: Response) => {
+  const userId = Number(req.query.userId);
+  if (!userId) {
+    return res.status(400).json({ error: "กรุณาระบุ userId" });
+  }
+  // ดึง education ล่าสุดของ user (หรือจะใช้ findMany ก็ได้)
+  const education = await prisma.education.findFirst({
+    where: { userId },
+    orderBy: { id: "desc" },
+  });
+  if (!education) {
+    return res.status(404).json({ error: "ไม่พบข้อมูลการศึกษา" });
+  }
+  res.json(education);
+});
+
+// POST/PUT education (สร้างหรืออัปเดตการศึกษา)
+app.post("/education", async (req: Request, res: Response) => {
+  const {
+    userId,
+    level,
+    school,
+    faculty,
+    major,
+    gpa,
+    status
+  } = req.body;
+  if (!userId || !level || !school) {
+    return res.status(400).json({ error: "กรุณากรอกข้อมูลให้ครบถ้วน" });
+  }
+  try {
+    // ถ้ามีข้อมูล education เดิม ให้ update, ถ้าไม่มีก็ create
+    const old = await prisma.education.findFirst({ where: { userId } });
+    let education;
+    if (old) {
+      education = await prisma.education.update({
+        where: { id: old.id },
+        data: { level, school, faculty, major, gpa, status },
+      });
+    } else {
+      education = await prisma.education.create({
+        data: { userId, level, school, faculty, major, gpa, status },
+      });
+    }
+    res.json({ message: "บันทึกข้อมูลการศึกษาสำเร็จ", education });
+  } catch (error) {
+    res.status(400).json({ error: "เกิดข้อผิดพลาดในการบันทึกข้อมูลการศึกษา" });
+  }
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

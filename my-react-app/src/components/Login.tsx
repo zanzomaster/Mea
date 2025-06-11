@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./register.css";
 
-const Login: React.FC<{ setUser: (user: { name: string }) => void }> = ({ setUser }) => {
+const Login: React.FC<{ setUser: (user: { name: string; role: string }) => void }> = ({ setUser }) => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -27,6 +27,7 @@ const Login: React.FC<{ setUser: (user: { name: string }) => void }> = ({ setUse
       const data = await res.json();
       if (res.ok) {
         setUser({ name: data.user.name, role: data.user.role });
+        localStorage.setItem("userId", data.user.id); // <-- เพิ่มบรรทัดนี้
         navigate("/");
       } else {
         setError(data.error || "เกิดข้อผิดพลาด");
