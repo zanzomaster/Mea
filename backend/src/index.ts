@@ -1,4 +1,4 @@
-const express = require('express');
+import express, { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
 const app = express();
@@ -6,16 +6,16 @@ const prisma = new PrismaClient();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("Hello from backend!");
 });
 
-app.get("/users", async (req, res) => {
+app.get("/users", async (req: Request, res: Response) => {
   const users = await prisma.user.findMany();
   res.json(users);
 });
 
-app.post("/register", async (req, res) => {
+app.post("/register", async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
     return res.status(400).json({ error: "กรุณากรอกข้อมูลให้ครบถ้วน" });
