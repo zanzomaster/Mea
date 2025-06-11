@@ -1,9 +1,11 @@
 import express, { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import cors from "cors"; // <--- เพิ่มบรรทัดนี้
 
 const app = express();
 const prisma = new PrismaClient();
 
+app.use(cors()); // <--- เพิ่มบรรทัดนี้
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
