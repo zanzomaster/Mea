@@ -162,6 +162,40 @@ app.post("/education", async (req: Request, res: Response) => {
   }
 });
 
+// GET internships ทั้งหมด
+app.get("/internships", async (req: Request, res: Response) => {
+  try {
+    const internships = await prisma.internship.findMany({
+      orderBy: { id: "desc" }
+    });
+    res.json(internships);
+  } catch (error) {
+    res.status(500).json({ error: "เกิดข้อผิดพลาดในการดึงข้อมูลฝึกงาน" });
+  }
+});
+
+// POST internship (เพิ่มข้อมูลฝึกงานใหม่)
+app.post("/internships", async (req: Request, res: Response) => {
+  const { office, desc, location, address, count} = req.body;
+  if (!office) {
+    return res.status(400).json({ error: "กรุณาระบุชื่อสถานที่ฝึกงาน (office)" });
+  }
+  try {
+    const internship = await prisma.internship.create({
+      data: { 
+        office, 
+        desc, 
+        location, 
+        address, 
+        count
+      }
+    });
+    res.json(internship);
+  } catch (error) {
+    res.status(400).json({ error: "เกิดข้อผิดพลาดในการเพิ่มข้อมูลฝึกงาน" });
+  }
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

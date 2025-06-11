@@ -1,49 +1,70 @@
-import React from "react";
-import { useNavigate } from "react-router-dom"; // เพิ่ม
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Search from "./search";
 import "./internship.css";
 
-const mockInternships = [
-  {
-    id: 1,
-    office: "การไฟฟ้านครหลวง เขตนนทบุรี",
-    desc: "รับนักศึกษาฝึกงาน หลายอัตรา",
-    location: "ฝ่ายงาน บางกระสอ",
-    address: "อำเภอเมืองนนทบุรี นนทบุรี 11000",
-    count: 4,
-  },
-  {
-    id: 2,
-    office: "การไฟฟ้านครหลวง เขตนนทบุรี",
-    desc: "รับนักศึกษาฝึกงาน หลายอัตรา",
-    location: "ฝ่ายงาน บางกระสอ",
-    address: "อำเภอเมืองนนทบุรี นนทบุรี 11000",
-    count: 4,
-  },
-  {
-    id: 3,
-    office: "การไฟฟ้านครหลวง เขตนนทบุรี",
-    desc: "รับนักศึกษาฝึกงาน หลายอัตรา",
-    location: "ฝ่ายงาน บางกระสอ",
-    address: "อำเภอเมืองนนทบุรี นนทบุรี 11000",
-    count: 4,
-  },
-];
+type InternshipType = {
+  id: number;
+  office: string;
+  desc?: string;
+  location?: string;
+  address?: string;
+  count?: number;
+};
 
 const Internship: React.FC = () => {
-  const navigate = useNavigate(); // เพิ่ม
+  const navigate = useNavigate();
+  const [internships, setInternships] = useState<InternshipType[]>([]);
+  const [search, setSearch] = useState("");
+  const [selectedZones, setSelectedZones] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/internships")
+      .then((res) => res.json())
+      .then((data) => setInternships(data));
+  }, []);
+
+  // ฟังก์ชัน filter
+  const filtered = internships.filter((item) => {
+    // เงื่อนไขค้นหาด้วยคำค้น
+    const matchSearch =
+      !search ||
+      item.office?.toLowerCase().includes(search.toLowerCase()) ||
+      item.desc?.toLowerCase().includes(search.toLowerCase()) ||
+      item.location?.toLowerCase().includes(search.toLowerCase()) ||
+      item.address?.toLowerCase().includes(search.toLowerCase());
+    // เงื่อนไขเลือกเขต
+    const matchZone =
+      selectedZones.length === 0 ||
+      (item.location && selectedZones.includes(item.location));
+    return matchSearch && matchZone;
+  });
 
   const handleClick = (id: number) => {
-    navigate(`/send/${id}`); // ไปหน้า send พร้อม id
+    navigate(`/send/${id}`);
   };
+
+  // รับค่าจาก Search component
+  const handleSearchChange = (value: string) => setSearch(value);
+  const handleZoneChange = (zones: string[]) => setSelectedZones(zones);
 
   return (
     <div style={{ background: "#fff", minHeight: "100vh", padding: "0 0 40px 0" }}>
       <div className="internship-title"></div>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <Search />
+        <Search
+          search={search}
+          setSearch={handleSearchChange}
+          selectedZones={selectedZones}
+          setSelectedZones={handleZoneChange}
+        />
         <div className="internship-list-bg">
-          {mockInternships.map((item, idx) => (
+          {filtered.length === 0 && (
+            <div style={{ textAlign: "center", color: "#888", marginTop: 40 }}>
+              ไม่พบข้อมูลที่ค้นหา
+            </div>
+          )}
+          {filtered.map((item) => (
             <div
               className="internship-item"
               key={item.id}

@@ -21,10 +21,20 @@ const ZONES = [
   "บางนา",
 ];
 
-const Search: React.FC = () => {
-  const [search, setSearch] = useState("");
+type SearchProps = {
+  search: string;
+  setSearch: (v: string) => void;
+  selectedZones: string[];
+  setSelectedZones: (zs: string[]) => void;
+};
+
+const Search: React.FC<SearchProps> = ({
+  search,
+  setSearch,
+  selectedZones,
+  setSelectedZones,
+}) => {
   const [zoneSearch, setZoneSearch] = useState("");
-  const [selectedZones, setSelectedZones] = useState<string[]>([]);
   const [showZoneDropdown, setShowZoneDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -45,18 +55,19 @@ const Search: React.FC = () => {
   }, [showZoneDropdown]);
 
   const filteredZones = ZONES.filter(
-    (z) =>
-      z.includes(zoneSearch) && !selectedZones.includes(z)
+    (z) => z.includes(zoneSearch) && !selectedZones.includes(z)
   );
 
   const toggleZone = (zone: string) => {
-    setSelectedZones((zs) =>
-      zs.includes(zone) ? zs.filter((z) => z !== zone) : [...zs, zone]
+    setSelectedZones(
+      selectedZones.includes(zone)
+        ? selectedZones.filter((z) => z !== zone)
+        : [...selectedZones, zone]
     );
   };
 
   const removeZone = (zone: string) => {
-    setSelectedZones((zs) => zs.filter((z) => z !== zone));
+    setSelectedZones(selectedZones.filter((z) => z !== zone));
   };
 
   return (
@@ -69,7 +80,7 @@ const Search: React.FC = () => {
           gap: 32,
           justifyContent: "center",
         }}
-        onSubmit={e => e.preventDefault()}
+        onSubmit={(e) => e.preventDefault()}
       >
         <input
           className="search-bar-input"
@@ -80,10 +91,7 @@ const Search: React.FC = () => {
         />
 
         {/* เขต Dropdown */}
-        <div
-          className="zone-dropdown"
-          ref={dropdownRef}
-        >
+        <div className="zone-dropdown" ref={dropdownRef}>
           <button
             type="button"
             className="zone-dropdown-btn"
@@ -92,14 +100,11 @@ const Search: React.FC = () => {
             {selectedZones.length === 0
               ? "ที่ตั้งสำนักงานเขต"
               : selectedZones.map((z) => (
-                  <span
-                    key={z}
-                    className="zone-tag zone-tag-selected"
-                  >
+                  <span key={z} className="zone-tag zone-tag-selected">
                     {z}
                     <span
                       className="zone-tag-remove"
-                      onClick={e => {
+                      onClick={(e) => {
                         e.stopPropagation();
                         removeZone(z);
                       }}
@@ -109,9 +114,7 @@ const Search: React.FC = () => {
                     </span>
                   </span>
                 ))}
-            <span className="zone-dropdown-arrow">
-              ▼
-            </span>
+            <span className="zone-dropdown-arrow">▼</span>
           </button>
           {showZoneDropdown && (
             <div className="zone-dropdown-list">
@@ -130,7 +133,9 @@ const Search: React.FC = () => {
                   <button
                     type="button"
                     key={zone}
-                    className={`zone-tag${selectedZones.includes(zone) ? " selected" : ""}`}
+                    className={`zone-tag${
+                      selectedZones.includes(zone) ? " selected" : ""
+                    }`}
                     onClick={() => toggleZone(zone)}
                   >
                     {zone}
@@ -141,10 +146,7 @@ const Search: React.FC = () => {
           )}
         </div>
 
-        <button
-          className="search-bar-btn"
-          type="submit"
-        >
+        <button className="search-bar-btn" type="submit">
           ค้นหา
         </button>
       </form>
