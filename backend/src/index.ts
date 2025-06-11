@@ -15,6 +15,21 @@ app.get("/users", async (req, res) => {
   res.json(users);
 });
 
+app.post("/register", async (req, res) => {
+  const { name, email, password } = req.body;
+  if (!name || !email || !password) {
+    return res.status(400).json({ error: "กรุณากรอกข้อมูลให้ครบถ้วน" });
+  }
+  try {
+    const user = await prisma.user.create({
+      data: { name, email, password },
+    });
+    res.json({ message: "สมัครสมาชิกสำเร็จ", user });
+  } catch (error) {
+    res.status(400).json({ error: "อีเมลนี้ถูกใช้ไปแล้ว" });
+  }
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
