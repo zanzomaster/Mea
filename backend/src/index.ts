@@ -15,11 +15,11 @@ app.get("/users", async (req: Request, res: Response) => {
   res.json(users);
 });
 
-app.post("/register", async (req: Request, res: Response) => {
+app.post("/users", async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
-    return res.status(400).json({ error: "กรุณากรอกข้อมูลให้ครบถ้วน" });
   }
+
   try {
     const user = await prisma.user.create({
       data: { name, email, password },
