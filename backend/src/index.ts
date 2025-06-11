@@ -45,6 +45,72 @@ app.post("/login", async (req: Request, res: Response) => {
   res.json({ message: "เข้าสู่ระบบสำเร็จ", user: { id: user.id, name: user.name, email: user.email, role: user.role } });
 });
 
+// GET profile by userId (เช่น /profile?userId=1)
+app.get("/profile", async (req: Request, res: Response) => {
+  const userId = Number(req.query.userId);
+  if (!userId) {
+    return res.status(400).json({ error: "กรุณาระบุ userId" });
+  }
+  const profile = await prisma.profile.findUnique({ where: { userId } });
+  if (!profile) {
+    return res.status(404).json({ error: "ไม่พบโปรไฟล์" });
+  }
+  res.json(profile);
+});
+
+// POST/PUT profile (สร้างหรืออัปเดตโปรไฟล์)
+app.post("/profile", async (req: Request, res: Response) => {
+  const {
+    userId,
+    firstName,
+    lastName,
+    gender,
+    birthDate,
+    nationality,
+    religion,
+    phone,
+    englishLevel,
+    internshipStart,
+    internshipEnd
+  } = req.body;
+  if (!userId) {
+    return res.status(400).json({ error: "กรุณาระบุ userId" });
+  }
+  try {
+    const profile = await prisma.profile.upsert({
+      where: { userId },
+      update: {
+        firstName,
+        lastName,
+        gender,
+        birthDate: birthDate ? new Date(birthDate) : null,
+        nationality,
+        religion,
+        phone,
+        englishLevel,
+        internshipStart: internshipStart ? new Date(internshipStart) : null,
+        internshipEnd: internshipEnd ? new Date(internshipEnd) : null,
+      },
+      create: {
+        userId,
+        firstName,
+        lastName,
+        gender,
+        birthDate: birthDate ? new Date(birthDate) : null,
+        nationality,
+        religion,
+        phone,
+        englishLevel,
+        internshipStart: internshipStart ? new Date(internshipStart) : null,
+        internshipEnd: internshipEnd ? new Date(internshipEnd) : null,
+      },
+    });
+    res.json({ message: "บันทึกโปรไฟล์สำเร็จ", profile });
+  } catch (error) {
+    res.status(400).json({ error: "เกิดข้อผิดพลาดในการบันทึกโปรไฟล์" });
+  }
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

@@ -20,15 +20,19 @@ model User {
 }
 
 model Profile {
-  id         Int    @id @default(autoincrement())
-  user       User   @relation(fields: [userId], references: [id])
-  userId     Int    @unique
-  gender     String?
-  birthDate  DateTime?
-  nationality String?
-  religion   String?
-  phone      String?
-  englishLevel String?
+  id            Int      @id @default(autoincrement())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        Int      @unique
+  firstName     String?  // เพิ่ม
+  lastName      String?  // เพิ่ม
+  gender        String?
+  birthDate     DateTime?
+  nationality   String?
+  religion      String?
+  phone         String?
+  englishLevel  String?
+  internshipStart DateTime? // เพิ่ม
+  internshipEnd   DateTime? // เพิ่ม
   // เพิ่ม field อื่นๆ ตามที่ต้องการ
 }
 
