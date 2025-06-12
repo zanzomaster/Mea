@@ -1,9 +1,11 @@
 import express, { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import cors from "cors"; // <--- เพิ่มบรรทัดนี้
+import multer from "multer";
 
 const app = express();
 const prisma = new PrismaClient();
+const upload = multer({ dest: "uploads/" });
 
 app.use(cors()); // <--- เพิ่มบรรทัดนี้
 app.use(express.json());
@@ -193,6 +195,30 @@ app.post("/internships", async (req: Request, res: Response) => {
     res.json(internship);
   } catch (error) {
     res.status(400).json({ error: "เกิดข้อผิดพลาดในการเพิ่มข้อมูลฝึกงาน" });
+  }
+});
+
+app.post("/apply-internship", upload.fields([
+  { name: "transcript", maxCount: 1 },
+  { name: "portfolio", maxCount: 1 }
+]), async (req: Request, res: Response) => {
+  const { internshipId, about, userId } = req.body;
+  const files = req.files as Record<string, Express.Multer.File[]>;
+  const transcriptPath = files?.transcript?.[0]?.path;
+  const portfolioPath = files?.portfolio?.[0]?.path;
+  try {
+    const application = await prisma.internshipApplication.create({
+      data: {
+        userId: Number(userId),
+        internshipId: Number(internshipId),
+        about,
+        transcript: transcriptPath,
+        portfolio: portfolioPath,
+      }
+    });
+    res.json({ message: "สมัครฝึกงานสำเร็จ", application });
+  } catch (error) {
+    res.status(400).json({ error: "เกิดข้อผิดพลาดในการสมัครฝึกงาน" });
   }
 });
 

@@ -15,6 +15,7 @@ model User {
   role        String       @default("USER")
   profile     Profile?
   educations  Education[]
+  applications InternshipApplication[] // <-- เพิ่มบรรทัดนี้
   createdAt   DateTime     @default(now())
 }
 
@@ -42,6 +43,7 @@ model Internship {
   location  String?
   address   String?
   count     Int?
+  applications InternshipApplication[] // <-- เพิ่มบรรทัดนี้
   createdAt DateTime @default(now())
 }
 
@@ -69,4 +71,16 @@ model Office {
   address String?
   zone    Zone   @relation(fields: [zoneId], references: [id])
   zoneId  Int
+}
+
+model InternshipApplication {
+  id            Int      @id @default(autoincrement())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        Int
+  internship    Internship @relation(fields: [internshipId], references: [id])
+  internshipId  Int
+  about         String?
+  transcript    String?   // เก็บ path ไฟล์
+  portfolio     String?   // เก็บ path ไฟล์
+  createdAt     DateTime  @default(now())
 }

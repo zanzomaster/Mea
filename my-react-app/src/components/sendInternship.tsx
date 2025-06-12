@@ -1,22 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./sendInternship.css";
 
-const mockInternships = [
-  {
-    id: 1,
-    office: "การไฟฟ้านครหลวง เขตนนทบุรี",
-    desc: "รับนักศึกษาฝึกงาน หลายอัตรา",
-    location: "ฝ่ายงาน บางกระสอ",
-    address: "อำเภอเมืองนนทบุรี นนทบุรี 11000",
-    count: 4,
-  },
-  // ...เพิ่ม mock อื่นถ้าต้องการ...
-];
+type InternshipType = {
+  id: number;
+  office: string;
+  desc?: string;
+  location?: string;
+  address?: string;
+  count?: number;
+};
 
 const SendInternship: React.FC = () => {
   const { id } = useParams();
-  const data = mockInternships.find((item) => item.id === Number(id));
+  const [data, setData] = useState<InternshipType | null>(null);
+
+  useEffect(() => {
+    if (!id) return;
+    fetch(`http://localhost:5000/internships`)
+      .then(res => res.json())
+      .then((list: InternshipType[]) => {
+        const found = list.find(item => item.id === Number(id));
+        setData(found || null);
+      });
+  }, [id]);
 
   return (
     <div className="send-internship-bg">
