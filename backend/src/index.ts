@@ -1,14 +1,28 @@
 import express, { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import cors from "cors"; // <--- เพิ่มบรรทัดนี้
+import path from "path";
 import multer from "multer";
 
 const app = express();
 const prisma = new PrismaClient();
-const upload = multer({ dest: "uploads/" });
+
+const storage = multer.diskStorage({
+  destination: "uploads/",
+  filename: (req, file, cb) => {
+    // ดึงนามสกุลไฟล์เดิม
+    const ext = path.extname(file.originalname) || ".pdf";
+    // ตั้งชื่อไฟล์ใหม่แบบ unique พร้อมนามสกุล
+    cb(null, `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`);
+  }
+});
+const upload = multer({ storage });
 
 app.use(cors()); // <--- เพิ่มบรรทัดนี้
 app.use(express.json());
+
+// เพิ่มบรรทัดนี้ เพื่อให้เข้าถึงไฟล์ใน uploads ได้ผ่าน URL
+app.use("/uploads", express.static("uploads"));
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello from backend!");

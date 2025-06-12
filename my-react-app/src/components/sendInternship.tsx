@@ -30,6 +30,16 @@ const SendInternship: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    // ตรวจสอบไฟล์ transcript
+    if (transcript && transcript.type !== "application/pdf") {
+      alert("กรุณาอัปโหลด transcript เป็นไฟล์ PDF เท่านั้น");
+      return;
+    }
+    // ตรวจสอบไฟล์ portfolio
+    if (portfolio && portfolio.type !== "application/pdf") {
+      alert("กรุณาอัปโหลด portfolio เป็นไฟล์ PDF เท่านั้น");
+      return;
+    }
     const formData = new FormData();
     formData.append("internshipId", String(id));
     formData.append("about", about);

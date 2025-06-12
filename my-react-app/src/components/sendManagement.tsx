@@ -61,7 +61,11 @@ const SendManagement: React.FC = () => {
           <div className="send-management-row">
             <div>transcript</div>
             {data.transcript && (
-              <a href={`http://localhost:5000/${data.transcript}`} target="_blank" rel="noopener noreferrer">
+              <a
+                href={`http://localhost:5000/${data.transcript.replace(/\\/g, "/")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 ดูไฟล์
               </a>
             )}
@@ -69,7 +73,11 @@ const SendManagement: React.FC = () => {
           <div className="send-management-row">
             <div>portfolio</div>
             {data.portfolio && (
-              <a href={`http://localhost:5000/${data.portfolio}`} target="_blank" rel="noopener noreferrer">
+              <a
+                href={`http://localhost:5000/${data.portfolio.replace(/\\/g, "/")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 ดูไฟล์
               </a>
             )}
