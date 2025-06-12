@@ -222,6 +222,52 @@ app.post("/apply-internship", upload.fields([
   }
 });
 
+// ดึงใบสมัครฝึกงานทั้งหมด
+app.get("/internship-applications", async (req: Request, res: Response) => {
+  try {
+    const applications = await prisma.internshipApplication.findMany({
+      include: {
+        user: true,
+        internship: true
+      },
+      orderBy: { createdAt: "desc" }
+    });
+    res.json(applications);
+  } catch (error) {
+    res.status(500).json({ error: "เกิดข้อผิดพลาดในการดึงข้อมูลใบสมัครฝึกงาน" });
+  }
+});
+
+// ดึงใบสมัครฝึกงานของ user คนเดียว
+app.get("/internship-applications/user/:userId", async (req: Request, res: Response) => {
+  const userId = Number(req.params.userId);
+  try {
+    const applications = await prisma.internshipApplication.findMany({
+      where: { userId },
+      include: { internship: true },
+      orderBy: { createdAt: "desc" }
+    });
+    res.json(applications);
+  } catch (error) {
+    res.status(500).json({ error: "เกิดข้อผิดพลาดในการดึงข้อมูลใบสมัครฝึกงาน" });
+  }
+});
+
+// ดึงใบสมัครฝึกงานของ internship เดียว
+app.get("/internship-applications/internship/:internshipId", async (req: Request, res: Response) => {
+  const internshipId = Number(req.params.internshipId);
+  try {
+    const applications = await prisma.internshipApplication.findMany({
+      where: { internshipId },
+      include: { user: true },
+      orderBy: { createdAt: "desc" }
+    });
+    res.json(applications);
+  } catch (error) {
+    res.status(500).json({ error: "เกิดข้อผิดพลาดในการดึงข้อมูลใบสมัครฝึกงาน" });
+  }
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
