@@ -1,6 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./management.css";
+
+type ApplicationType = {
+  id: number;
+  about?: string;
+  transcript?: string;
+  portfolio?: string;
+  createdAt: string;
+  user: { name: string };
+  internship: { office: string; location?: string };
+  // เพิ่ม field อื่นๆ ตาม schema
+};
 
 const allZones = [
   "สำนักงานใหญ่คลองเตย", "สำนักงานเพลินจิต", "วัดเลียบ", "มีนบุรี",
@@ -9,46 +20,49 @@ const allZones = [
   "ลาดกระบัง", "บางนา"
 ];
 
-type Status = "accept" | "reject" | null;
-
-const mockData = [
-  "นายปวีรวรรณ อาชวรรณ คณะวิศวกรรม สาขาวิศวกรรมคอมพิวเตอร์ เขตนนทบุรี",
-  "นายปวีรวรรณ อาชวรรณ คณะวิศวกรรม สาขาวิศวกรรมคอมพิวเตอร์ เขตนนทบุรี",
-  "นายปวีรวรรณ อาชวรรณ คณะวิศวกรรม สาขาวิศวกรรมคอมพิวเตอร์ เขตนนทบุรี",
-  "นายปวีรวรรณ อาชวรรณ คณะวิศวกรรม สาขาวิศวกรรมคอมพิวเตอร์ เขตนนทบุรี",
-  "นายปวีรวรรณ อาชวรรณ คณะวิศวกรรม สาขาวิศวกรรมคอมพิวเตอร์ เขตนนทบุรี",
-  "นายปวีรวรรณ อาชวรรณ คณะวิศวกรรม สาขาวิศวกรรมคอมพิวเตอร์ เขตนนทบุรี",
-  "นายปวีรวรรณ อาชวรรณ คณะวิศวกรรม สาขาวิศวกรรมคอมพิวเตอร์ เขตนนทบุรี",
-  "นายปวีรวรรณ อาชวรรณ คณะวิศวกรรม สาขาวิศวกรรมคอมพิวเตอร์ เขตนนทบุรี",
-  "นายปวีรวรรณ อาชวรรณ คณะวิศวกรรม สาขาวิศวกรรมคอมพิวเตอร์ เขตนนทบุรี"
-];
-
 const Management = () => {
   const navigate = useNavigate();
-  const [statusList, setStatusList] = useState<Status[]>(Array(mockData.length).fill(null));
+  const [applications, setApplications] = useState<ApplicationType[]>([]);
+  const [statusList, setStatusList] = useState<Record<number, "accept" | "reject" | null>>({});
   const [selectedZones, setSelectedZones] = useState<string[]>([]);
   const [showZoneList, setShowZoneList] = useState(false);
   const [search, setSearch] = useState("");
 
-  const handleClick = (idx: number) => {
-    navigate(`/sendmanagement/${idx + 1}`, { state: { idx } });
-  };
+  // โหลดข้อมูลจาก backend
+  useEffect(() => {
+    fetch("http://localhost:5000/internship-applications")
+      .then(res => res.json())
+      .then(data => setApplications(data));
+  }, []);
 
   // รับค่ากลับมาจากหน้า sendManagement
-  React.useEffect(() => {
+  useEffect(() => {
     const handler = (e: StorageEvent) => {
       if (e.key === "managementStatus" && e.newValue) {
         const { idx, status } = JSON.parse(e.newValue);
-        setStatusList((prev) => {
-          const copy = [...prev];
-          copy[idx] = status;
-          return copy;
-        });
+        setStatusList(prev => ({ ...prev, [idx]: status }));
       }
     };
     window.addEventListener("storage", handler);
     return () => window.removeEventListener("storage", handler);
   }, []);
+
+  // ฟิลเตอร์ตามเขตและค้นหา
+  const filtered = applications.filter(app => {
+    const matchZone =
+      selectedZones.length === 0 ||
+      (app.internship.location && selectedZones.includes(app.internship.location));
+    const matchSearch =
+      !search ||
+      app.user.name.includes(search) ||
+      app.internship.office.includes(search) ||
+      app.about?.includes(search);
+    return matchZone && matchSearch;
+  });
+
+  const handleClick = (idx: number) => {
+    navigate(`/sendmanagement/${filtered[idx].id}`, { state: { idx } });
+  };
 
   const handleZoneBtnClick = () => setShowZoneList((prev) => !prev);
 
@@ -187,10 +201,10 @@ const Management = () => {
             )}
           </div>
           <div className="management-list">
-            {mockData.map((name, idx) => (
+            {filtered.map((app, idx) => (
               <div
                 className="management-item"
-                key={idx}
+                key={app.id}
                 style={{ cursor: "pointer" }}
                 onClick={() => handleClick(idx)}
               >
@@ -201,21 +215,23 @@ const Management = () => {
                       <path d="M12 14c-5 0-8 2.5-8 4v2h16v-2c0-1.5-3-4-8-4z"/>
                     </svg>
                   </span>
-                  <span>{name}</span>
+                  <span>
+                    {app.user.name} | {app.internship.office} {app.internship.location && `(${app.internship.location})`}
+                  </span>
                 </div>
                 <span>
-                  {statusList[idx] === "accept" && (
+                  {statusList[app.id] === "accept" && (
                     <svg width="28" height="28" fill="none" stroke="#4caf50" strokeWidth="3" viewBox="0 0 24 24">
                       <polyline points="20 6 10 18 4 12" />
                     </svg>
                   )}
-                  {statusList[idx] === "reject" && (
+                  {statusList[app.id] === "reject" && (
                     <svg width="28" height="28" fill="none" stroke="#f44336" strokeWidth="3" viewBox="0 0 24 24">
                       <line x1="6" y1="6" x2="18" y2="18" />
                       <line x1="6" y1="18" x2="18" y2="6" />
                     </svg>
                   )}
-                  {statusList[idx] === null && (
+                  {statusList[app.id] == null && (
                     <svg width="28" height="28" fill="none" stroke="#ff9800" strokeWidth="3" viewBox="0 0 24 24">
                       <path d="M9 6l6 6-6 6" />
                     </svg>

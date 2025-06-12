@@ -1,35 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./sendManagement.css";
 
-const mockDetail = {
-  name: "นายปวีรวรรณ อาชวรรณ คณะวิศวกรรม สาขาวิศวกรรมคอมพิวเตอร์ เขตนนทบุรี",
-  gpa: "3.65",
-  university: "มหาวิทยาลัย ธุรกิจบัณฑิตย์",
-  transcript: "transcript.pdf",
-  transcriptFile: "Test.pdf",
-  portfolio: "portfolio.pdf",
-  portfolioFile: "porttest.pdf",
-  job: "Tester, ออกแบบหน้าบ้านเว็บ, Security, ทำเว็บ",
+type ApplicationType = {
+  id: number;
+  about?: string;
+  transcript?: string;
+  portfolio?: string;
+  createdAt: string;
+  user: { name: string };
+  internship: { office: string; location?: string };
 };
 
 const SendManagement: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const idx = Number(id) - 1;
+  const [data, setData] = useState<ApplicationType | null>(null);
 
-  // ในงานจริงควรดึงข้อมูลตาม id
-  const data = mockDetail;
+  useEffect(() => {
+    if (!id) return;
+    fetch(`http://localhost:5000/internship-applications`)
+      .then(res => res.json())
+      .then((apps: ApplicationType[]) => {
+        const found = apps.find(app => app.id === Number(id));
+        setData(found || null);
+      });
+  }, [id]);
 
   const handleAccept = () => {
-    sessionStorage.setItem("managementStatus", JSON.stringify({ idx, status: "accept" }));
+    sessionStorage.setItem("managementStatus", JSON.stringify({ idx: data?.id, status: "accept" }));
     navigate(-1);
   };
 
   const handleReject = () => {
-    sessionStorage.setItem("managementStatus", JSON.stringify({ idx, status: "reject" }));
+    sessionStorage.setItem("managementStatus", JSON.stringify({ idx: data?.id, status: "reject" }));
     navigate(-1);
   };
+
+  if (!data) return <div>Loading...</div>;
 
   return (
     <div className="send-management-bg">
@@ -44,25 +52,31 @@ const SendManagement: React.FC = () => {
               </svg>
             </span>
             <div>
-              {data.name}
+              {data.user.name}
               <div className="send-management-gpa">
-                เกรดเฉลี่ย {data.gpa} {data.university}
+                {/* เพิ่ม field อื่นๆ ตามต้องการ */}
               </div>
             </div>
           </div>
           <div className="send-management-row">
             <div>transcript</div>
-            <input value={data.transcriptFile} readOnly className="send-management-input" />
-            <span>{data.transcript}</span>
+            {data.transcript && (
+              <a href={`http://localhost:5000/${data.transcript}`} target="_blank" rel="noopener noreferrer">
+                ดูไฟล์
+              </a>
+            )}
           </div>
           <div className="send-management-row">
             <div>portfolio</div>
-            <input value={data.portfolioFile} readOnly className="send-management-input" />
-            <span>{data.portfolio}</span>
+            {data.portfolio && (
+              <a href={`http://localhost:5000/${data.portfolio}`} target="_blank" rel="noopener noreferrer">
+                ดูไฟล์
+              </a>
+            )}
           </div>
           <div className="send-management-row">
             <div>อยากทำงานอะไร/เกี่ยวกับอะไร</div>
-            <div>{data.job}</div>
+            <div>{data.about}</div>
           </div>
         </div>
         <div className="send-management-btn-row">
