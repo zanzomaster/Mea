@@ -37,10 +37,16 @@ const Management = () => {
 
   // รับค่ากลับมาจากหน้า sendManagement
   useEffect(() => {
+    // โหลดสถานะจาก sessionStorage (กรณี refresh หน้า)
+    const status = sessionStorage.getItem("managementStatus");
+    if (status) {
+      setStatusList(JSON.parse(status));
+    }
+
+    // ฟัง event storage (กรณีเปลี่ยน tab)
     const handler = (e: StorageEvent) => {
       if (e.key === "managementStatus" && e.newValue) {
-        const { idx, status } = JSON.parse(e.newValue);
-        setStatusList(prev => ({ ...prev, [idx]: status }));
+        setStatusList(JSON.parse(e.newValue));
       }
     };
     window.addEventListener("storage", handler);

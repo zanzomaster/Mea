@@ -28,12 +28,16 @@ const SendManagement: React.FC = () => {
   }, [id]);
 
   const handleAccept = () => {
-    sessionStorage.setItem("managementStatus", JSON.stringify({ idx: data?.id, status: "accept" }));
+    const statusObj = JSON.parse(sessionStorage.getItem("managementStatus") || "{}");
+    statusObj[data?.id] = "accept";
+    sessionStorage.setItem("managementStatus", JSON.stringify(statusObj));
     navigate(-1);
   };
 
   const handleReject = () => {
-    sessionStorage.setItem("managementStatus", JSON.stringify({ idx: data?.id, status: "reject" }));
+    const statusObj = JSON.parse(sessionStorage.getItem("managementStatus") || "{}");
+    statusObj[data?.id] = "reject";
+    sessionStorage.setItem("managementStatus", JSON.stringify(statusObj));
     navigate(-1);
   };
 
