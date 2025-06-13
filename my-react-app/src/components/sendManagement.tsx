@@ -27,17 +27,21 @@ const SendManagement: React.FC = () => {
       });
   }, [id]);
 
-  const handleAccept = () => {
-    const statusObj = JSON.parse(sessionStorage.getItem("managementStatus") || "{}");
-    statusObj[data?.id] = "accept";
-    sessionStorage.setItem("managementStatus", JSON.stringify(statusObj));
+  const handleAccept = async () => {
+    await fetch(`http://localhost:5000/internship-applications/${data?.id}/status`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "accept" }),
+    });
     navigate(-1);
   };
 
-  const handleReject = () => {
-    const statusObj = JSON.parse(sessionStorage.getItem("managementStatus") || "{}");
-    statusObj[data?.id] = "reject";
-    sessionStorage.setItem("managementStatus", JSON.stringify(statusObj));
+  const handleReject = async () => {
+    await fetch(`http://localhost:5000/internship-applications/${data?.id}/status`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "reject" }),
+    });
     navigate(-1);
   };
 

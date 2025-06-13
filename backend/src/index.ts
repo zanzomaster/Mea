@@ -282,6 +282,23 @@ app.get("/internship-applications/internship/:internshipId", async (req: Request
   }
 });
 
+app.put("/internship-applications/:id/status", async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+  const { status } = req.body;
+  if (!["accept", "reject"].includes(status)) {
+    return res.status(400).json({ error: "สถานะไม่ถูกต้อง" });
+  }
+  try {
+    const updated = await prisma.internshipApplication.update({
+      where: { id },
+      data: { status },
+    });
+    res.json(updated);
+  } catch (error) {
+    res.status(400).json({ error: "เกิดข้อผิดพลาดในการอัปเดตสถานะ" });
+  }
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

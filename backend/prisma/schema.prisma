@@ -82,5 +82,6 @@ model InternshipApplication {
   about         String?
   transcript    String?   // เก็บ path ไฟล์
   portfolio     String?   // เก็บ path ไฟล์
+  status        String?   // <-- เพิ่มบรรทัดนี้
   createdAt     DateTime  @default(now())
 }

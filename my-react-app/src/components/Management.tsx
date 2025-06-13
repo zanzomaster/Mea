@@ -10,6 +10,7 @@ type ApplicationType = {
   createdAt: string;
   user: { name: string };
   internship: { office: string; location?: string };
+  status?: "accept" | "reject" | null;
   // เพิ่ม field อื่นๆ ตาม schema
 };
 
@@ -226,23 +227,31 @@ const Management = () => {
                   </span>
                 </div>
                 <span>
-                  {statusList[app.id] === "accept" && (
+                  {app.status === "accept" && (
                     <svg width="28" height="28" fill="none" stroke="#4caf50" strokeWidth="3" viewBox="0 0 24 24">
                       <polyline points="20 6 10 18 4 12" />
                     </svg>
                   )}
-                  {statusList[app.id] === "reject" && (
+                  {app.status === "reject" && (
                     <svg width="28" height="28" fill="none" stroke="#f44336" strokeWidth="3" viewBox="0 0 24 24">
                       <line x1="6" y1="6" x2="18" y2="18" />
                       <line x1="6" y1="18" x2="18" y2="6" />
                     </svg>
                   )}
-                  {statusList[app.id] == null && (
+                  {app.status == null && (
                     <svg width="28" height="28" fill="none" stroke="#ff9800" strokeWidth="3" viewBox="0 0 24 24">
                       <path d="M9 6l6 6-6 6" />
                     </svg>
                   )}
                 </span>
+                <div className="management-status">
+                  {app.status === "accept" && (
+                    <span style={{ color: "#4caf50", fontWeight: 600 }}>ตอบรับแล้ว</span>
+                  )}
+                  {app.status === "reject" && (
+                    <span style={{ color: "#f44336", fontWeight: 600 }}>ปฏิเสธ</span>
+                  )}
+                </div>
               </div>
             ))}
           </div>
