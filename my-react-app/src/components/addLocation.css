@@ -1,0 +1,38 @@
+.add-location-bg {
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* หรือ center ถ้าอยากให้อยู่กลางจอ */
+  align-items: center;
+  padding-top: 120px; /* เพิ่มระยะห่างด้านบน */
+}
+
+.add-location-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 500px; /* เดิม 500px เพิ่มเป็น 700px หรือมากกว่านี้ได้ */
+  background: #ffe3cf;
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.add-location-input {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.add-location-btn {
+  background: #ff9800;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 0;
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+}

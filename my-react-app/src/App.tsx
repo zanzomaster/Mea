@@ -20,6 +20,7 @@ import ChangePassword from "./components/ChangePassword";
 import Management from "./components/Management";
 import SendInternship from "./components/sendInternship";
 import SendManagement from "./components/sendManagement";
+import AddLocation from "./components/addLocation";
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
         <Route path="/management" element={<Management />} />
         <Route path="/send/:id" element={<SendInternship />} />
         <Route path="/sendmanagement/:id" element={<SendManagement />} />
+        <Route path="/add-location" element={<AddLocation />} />
         {/* เพิ่มเส้นทางอื่น ๆ ตามต้องการ */}
       </Routes>
     </Router>

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // เพิ่มบรรทัดนี้
 import "./search.css";
 
 const ZONES = [
@@ -37,6 +38,7 @@ const Search: React.FC<SearchProps> = ({
   const [zoneSearch, setZoneSearch] = useState("");
   const [showZoneDropdown, setShowZoneDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate(); // เพิ่มบรรทัดนี้
 
   // ปิด dropdown เมื่อคลิกข้างนอก
   useEffect(() => {
@@ -80,7 +82,10 @@ const Search: React.FC<SearchProps> = ({
           gap: 32,
           justifyContent: "center",
         }}
-        onSubmit={(e) => e.preventDefault()}
+        onSubmit={(e) => {
+          e.preventDefault();
+          navigate("/add-location"); // เพิ่มบรรทัดนี้
+        }}
       >
         <input
           className="search-bar-input"
@@ -147,7 +152,7 @@ const Search: React.FC<SearchProps> = ({
         </div>
 
         <button className="search-bar-btn" type="submit">
-          ค้นหา
+          เพิ่ม
         </button>
       </form>
     </div>
