@@ -8,11 +8,33 @@ const ChangePassword: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: handle change password logic
-    alert("เปลี่ยนรหัสผ่านสำเร็จ!");
-    navigate("/profile");
+    if (newPassword !== confirmPassword) {
+      alert("รหัสผ่านใหม่กับยืนยันรหัสผ่านไม่ตรงกัน");
+      return;
+    }
+    const userId = localStorage.getItem("userId");
+    if (!userId) {
+      alert("ไม่พบข้อมูลผู้ใช้");
+      return;
+    }
+    const res = await fetch("http://localhost:5000/change-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId,
+        oldPassword,
+        newPassword,
+      }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      alert("เปลี่ยนรหัสผ่านสำเร็จ!");
+      navigate("/profile");
+    } else {
+      alert(data.error || "เกิดข้อผิดพลาด");
+    }
   };
 
   return (

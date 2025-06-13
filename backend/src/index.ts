@@ -292,11 +292,50 @@ app.put("/internship-applications/:id/status", async (req: Request, res: Respons
     const updated = await prisma.internshipApplication.update({
       where: { id },
       data: { status },
+      include: { user: true, internship: true }
     });
+
+    await prisma.mailbox.create({
+      data: {
+        userId: updated.userId,
+        title: "ผลการสมัครฝึกงาน",
+        message:
+          status === "accept"
+            ? `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณได้รับการตอบรับแล้ว ให้ส่งเอกสารขอฝึกงานที่ Email lib_trd@mea.or.th`
+            : `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณไม่ได้รับการตอบรับ`,
+      },
+    });
+
     res.json(updated);
   } catch (error) {
     res.status(400).json({ error: "เกิดข้อผิดพลาดในการอัปเดตสถานะ" });
   }
+});
+
+app.get("/mailbox", async (req: Request, res: Response) => {
+  const userId = Number(req.query.userId);
+  if (!userId) return res.status(400).json({ error: "ต้องระบุ userId" });
+  const mails = await prisma.mailbox.findMany({
+    where: { userId },
+    orderBy: { createdAt: "desc" }
+  });
+  res.json(mails);
+});
+
+app.post("/change-password", async (req: Request, res: Response) => {
+  const { userId, oldPassword, newPassword } = req.body;
+  if (!userId || !oldPassword || !newPassword) {
+    return res.status(400).json({ error: "ข้อมูลไม่ครบถ้วน" });
+  }
+  const user = await prisma.user.findUnique({ where: { id: Number(userId) } });
+  if (!user || user.password !== oldPassword) {
+    return res.status(400).json({ error: "รหัสผ่านเดิมไม่ถูกต้อง" });
+  }
+  await prisma.user.update({
+    where: { id: Number(userId) },
+    data: { password: newPassword },
+  });
+  res.json({ message: "เปลี่ยนรหัสผ่านสำเร็จ" });
 });
 
 const port = process.env.PORT || 5000;

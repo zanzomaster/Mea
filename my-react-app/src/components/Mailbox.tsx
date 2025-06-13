@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./profile.css";
 
+type MailType = {
+  id: number;
+  title: string;
+  message: string;
+  isRead: boolean;
+  createdAt: string;
+};
+
 const Mailbox: React.FC = () => {
   const navigate = useNavigate();
+  const [mails, setMails] = useState<MailType[]>([]);
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    if (!userId) return;
+    fetch(`http://localhost:5000/mailbox?userId=${userId}`)
+      .then(res => res.json())
+      .then(setMails);
+  }, []);
 
   return (
     <div className="profile-bg">
@@ -14,40 +31,28 @@ const Mailbox: React.FC = () => {
       </div>
       <div className="profile-form-container">
         <div style={{ width: "100%" }}>
-          <div style={{
-            background: "#ffd2ad",
-            borderRadius: "8px",
-            padding: "16px 16px 16px 24px",
-            marginBottom: "16px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between"
-          }}>
-            <span>จดหมายฝึกงาน....</span>
-            <span style={{ fontSize: 28 }}>
-              <svg width="28" height="28" fill="none" stroke="#222" strokeWidth="2" viewBox="0 0 24 24">
-                <rect x="3" y="7" width="18" height="10" rx="2" stroke="#222" strokeWidth="2" fill="none"/>
-                <path d="M3 7l9 6 9-6" stroke="#222" strokeWidth="2" fill="none"/>
-              </svg>
-            </span>
-          </div>
-          <div style={{
-            background: "#ffd2ad",
-            borderRadius: "8px",
-            padding: "16px 16px 16px 24px",
-            marginBottom: "16px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between"
-          }}>
-            <span>จดหมายฝึกงาน....</span>
-            <span style={{ fontSize: 28 }}>
-              <svg width="28" height="28" fill="none" stroke="#222" strokeWidth="2" viewBox="0 0 24 24">
-                <rect x="3" y="7" width="18" height="10" rx="2" stroke="#222" strokeWidth="2" fill="none"/>
-                <path d="M3 7l9 6 9-6" stroke="#222" strokeWidth="2" fill="none"/>
-              </svg>
-            </span>
-          </div>
+          {mails.length === 0 && (
+            <div style={{ color: "#888", textAlign: "center", marginTop: 32 }}>ไม่มีจดหมาย</div>
+          )}
+          {mails.map(mail => (
+            <div
+              key={mail.id}
+              style={{
+                background: "#ffd2ad",
+                borderRadius: "8px",
+                padding: "16px 16px 16px 24px",
+                marginBottom: "16px",
+                display: "flex",
+                flexDirection: "column"
+              }}
+            >
+              <span style={{ fontWeight: 600 }}>{mail.title}</span>
+              <span style={{ marginTop: 6 }}>{mail.message}</span>
+              <span style={{ fontSize: 12, color: "#888", marginTop: 8 }}>
+                {new Date(mail.createdAt).toLocaleString()}
+              </span>
+            </div>
+          ))}
         </div>
       </div>
     </div>

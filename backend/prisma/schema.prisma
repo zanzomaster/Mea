@@ -17,6 +17,7 @@ model User {
   educations  Education[]
   applications InternshipApplication[] // <-- เพิ่มบรรทัดนี้
   createdAt   DateTime     @default(now())
+  Mailboxs   Mailbox[]   // เพิ่มบรรทัดนี้
 }
 
 model Profile {
@@ -84,4 +85,14 @@ model InternshipApplication {
   portfolio     String?   // เก็บ path ไฟล์
   status        String?   // <-- เพิ่มบรรทัดนี้
   createdAt     DateTime  @default(now())
+}
+
+model Mailbox {
+  id            Int      @id @default(autoincrement())
+  user          User     @relation(fields: [userId], references: [id])
+  userId        Int
+  title         String
+  message       String
+  isRead        Boolean  @default(false)
+  createdAt     DateTime @default(now())
 }
