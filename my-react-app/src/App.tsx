@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from './components/navbar'
 import ImageSection from './components/imageSection'
 import Search from './components/search'
@@ -25,11 +25,26 @@ import AddLocation from "./components/addLocation";
 
 function App() {
   // state สำหรับจำลองการล็อกอิน
-  const [user, setUser] = useState<{ name: string } | null>(null);
+  const [user, setUser] = useState<{ name: string; role?: string } | null>(null);
+
+  useEffect(() => {
+    const name = localStorage.getItem("userName");
+    const role = localStorage.getItem("role");
+    if (name && role) {
+      setUser({ name, role });
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("role");
+    localStorage.removeItem("userName");
+    setUser(null);
+  };
 
   return (
     <Router>
-      <Navbar user={user} setUser={setUser} />
+      <Navbar user={user} setUser={setUser} onLogout={handleLogout} />
       <Routes>
         <Route
           path="/"

@@ -72,6 +72,8 @@ const Search: React.FC<SearchProps> = ({
     setSelectedZones(selectedZones.filter((z) => z !== zone));
   };
 
+  const role = localStorage.getItem("role"); // สมมติ login แล้วเก็บ role ไว้
+
   return (
     <div className="search-bar-bg">
       <form
@@ -84,7 +86,9 @@ const Search: React.FC<SearchProps> = ({
         }}
         onSubmit={(e) => {
           e.preventDefault();
-          navigate("/add-location"); // เพิ่มบรรทัดนี้
+          if (role === "ADMIN") {
+            navigate("/add-location");
+          }
         }}
       >
         <input
@@ -151,9 +155,11 @@ const Search: React.FC<SearchProps> = ({
           )}
         </div>
 
-        <button className="search-bar-btn" type="submit">
-          เพิ่ม
-        </button>
+        {role === "ADMIN" && (
+          <button className="search-bar-btn" type="submit">
+            เพิ่ม
+          </button>
+        )}
       </form>
     </div>
   );

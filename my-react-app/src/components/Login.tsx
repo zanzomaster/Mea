@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./register.css";
 
@@ -6,6 +6,15 @@ const Login: React.FC<{ setUser: (user: { name: string; role: string }) => void 
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+
+  // เพิ่ม useEffect นี้
+  useEffect(() => {
+    const userName = localStorage.getItem("userName");
+    const role = localStorage.getItem("role");
+    if (userName && role) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,7 +36,9 @@ const Login: React.FC<{ setUser: (user: { name: string; role: string }) => void 
       const data = await res.json();
       if (res.ok) {
         setUser({ name: data.user.name, role: data.user.role });
-        localStorage.setItem("userId", data.user.id); // <-- เพิ่มบรรทัดนี้
+        localStorage.setItem("userId", data.user.id);
+        localStorage.setItem("role", data.user.role);
+        localStorage.setItem("userName", data.user.name); // <-- เพิ่มบรรทัดนี้
         navigate("/");
       } else {
         setError(data.error || "เกิดข้อผิดพลาด");

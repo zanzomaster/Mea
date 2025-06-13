@@ -7,9 +7,11 @@ const Navbar = ({ user, setUser }: { user: { name: string, role?: string } | nul
   const navigate = useNavigate(); // เพิ่ม useNavigate
 
   const handleLogout = () => {
-    localStorage.removeItem("userId"); // <-- เพิ่มบรรทัดนี้
+    localStorage.removeItem("userId");
+    localStorage.removeItem("role");
+    localStorage.removeItem("userName");
     setUser(null);
-    navigate("/");
+    navigate("/login", { replace: true }); // กลับไปหน้า login
   };
 
   return (
