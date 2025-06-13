@@ -1,10 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./navbar.css";
 
-const Navbar = ({ user, setUser }: { user: { name: string, role?: string } | null, setUser: (u: null) => void }) => {
+const Navbar = ({
+  user,
+  setUser,
+  onLogout,
+}: {
+  user: { name: string; role?: string } | null;
+  setUser: (u: null) => void;
+  onLogout: () => void;
+}) => {
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate(); // เพิ่ม useNavigate
+  const navigate = useNavigate();
+
+  // เพิ่ม useEffect นี้
+  useEffect(() => {
+    setOpen(false);
+  }, [user]);
 
   const handleLogout = () => {
     localStorage.removeItem("userId");

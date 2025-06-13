@@ -8,14 +8,39 @@ type ApplicationType = {
   transcript?: string;
   portfolio?: string;
   createdAt: string;
-  user: { name: string };
+  user: { id: number; name: string }; // เพิ่ม id
   internship: { office: string; location?: string };
+};
+
+type ProfileType = {
+  firstName?: string;
+  lastName?: string;
+  gender?: string;
+  birthDate?: string;
+  nationality?: string;
+  religion?: string;
+  englishLevel?: string;
+  email?: string;
+  phone?: string;
+  internshipStart?: string;
+  internshipEnd?: string;
+};
+
+type EducationType = {
+  level?: string;
+  school?: string;
+  faculty?: string;
+  major?: string;
+  gpa?: number;
+  status?: string;
 };
 
 const SendManagement: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [data, setData] = useState<ApplicationType | null>(null);
+  const [profile, setProfile] = useState<ProfileType | null>(null);
+  const [education, setEducation] = useState<EducationType | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -26,6 +51,17 @@ const SendManagement: React.FC = () => {
         setData(found || null);
       });
   }, [id]);
+
+  // โหลด profile และ education เมื่อ data พร้อม
+  useEffect(() => {
+    if (!data?.user?.id) return;
+    fetch(`http://localhost:5000/profile?userId=${data.user.id}`)
+      .then(res => res.ok ? res.json() : null)
+      .then(setProfile);
+    fetch(`http://localhost:5000/education?userId=${data.user.id}`)
+      .then(res => res.ok ? res.json() : null)
+      .then(setEducation);
+  }, [data?.user?.id]);
 
   const handleAccept = async () => {
     await fetch(`http://localhost:5000/internship-applications/${data?.id}/status`, {
@@ -95,6 +131,45 @@ const SendManagement: React.FC = () => {
             <div>{data.about}</div>
           </div>
         </div>
+
+        {/* ส่วนแสดงโปรไฟล์ */}
+        <div className="send-management-detail" style={{ marginBottom: 24 }}>
+          <h3>ข้อมูลโปรไฟล์</h3>
+          {profile ? (
+            <div>
+              <div>ชื่อ: {profile.firstName} {profile.lastName}</div>
+              <div>เพศ: {profile.gender}</div>
+              <div>วันเกิด: {profile.birthDate ? profile.birthDate.slice(0, 10) : "-"}</div>
+              <div>สัญชาติ: {profile.nationality}</div>
+              <div>ศาสนา: {profile.religion}</div>
+              <div>ระดับภาษาอังกฤษ: {profile.englishLevel}</div>
+              <div>Email: {profile.email}</div>
+              <div>เบอร์โทร: {profile.phone}</div>
+              <div>วันที่เริ่มฝึกงาน: {profile.internshipStart ? profile.internshipStart.slice(0, 10) : "-"}</div>
+              <div>วันที่สิ้นสุดฝึกงาน: {profile.internshipEnd ? profile.internshipEnd.slice(0, 10) : "-"}</div>
+            </div>
+          ) : (
+            <div style={{ color: "#888" }}>ไม่มีข้อมูลโปรไฟล์</div>
+          )}
+        </div>
+
+        {/* ส่วนแสดงการศึกษา */}
+        <div className="send-management-detail" style={{ marginBottom: 24 }}>
+          <h3>ข้อมูลการศึกษา</h3>
+          {education ? (
+            <div>
+              <div>ระดับการศึกษา: {education.level}</div>
+              <div>สถานศึกษา: {education.school}</div>
+              <div>คณะ: {education.faculty}</div>
+              <div>สาขา: {education.major}</div>
+              <div>เกรดเฉลี่ย: {education.gpa}</div>
+              <div>สถานะ: {education.status}</div>
+            </div>
+          ) : (
+            <div style={{ color: "#888" }}>ไม่มีข้อมูลการศึกษา</div>
+          )}
+        </div>
+
         <div className="send-management-btn-row">
           <button onClick={handleAccept} className="send-management-btn accept">ตกลงรับ</button>
           <button onClick={handleReject} className="send-management-btn reject">ปฏิเสธ</button>
