@@ -46,15 +46,15 @@ const Login: React.FC<{ setUser: (user: { name: string; role: string }) => void 
         <input type="password" className="register-input" name="password" value={form.password} onChange={handleChange} />
         <button type="submit" className="register-btn">เข้าสู่ระบบ</button>
         {error && <div style={{ color: "red" }}>{error}</div>}
-        <div className="register-or">หรือ</div>
-        <button type="button" className="register-btn-line">
+        {/* <div className="register-or">หรือ</div> */}
+        {/* <button type="button" className="register-btn-line">
           <img src="https://play-lh.googleusercontent.com/74iMObG1vsR3Kfm82RjERFhf99QFMNIY211oMvN636_gULghbRBMjpVFTjOK36oxCbs=w240-h480-rw" alt="LINE" className="register-icon" />
           เข้าสู่ระบบด้วย LINE
         </button>
         <button type="button" className="register-btn-google">
           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" alt="Google" className="register-icon" />
           เข้าสู่ระบบด้วย Google
-        </button>
+        </button> */}
         <div className="register-login-link">
           ยังไม่มีบัญชี? <a href="/register">สมัครสมาชิก</a>
         </div>

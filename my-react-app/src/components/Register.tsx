@@ -54,7 +54,7 @@ const Register: React.FC = () => {
         <button type="submit" className="register-btn">ดำเนินการต่อ</button>
         {error && <div style={{ color: "red" }}>{error}</div>}
         {success && <div style={{ color: "green" }}>{success}</div>}
-        <div className="register-or">หรือ</div>
+        {/* <div className="register-or">หรือ</div>
         <button type="button" className="register-btn-line">
           <img src="https://play-lh.googleusercontent.com/74iMObG1vsR3Kfm82RjERFhf99QFMNIY211oMvN636_gULghbRBMjpVFTjOK36oxCbs=w240-h480-rw" alt="LINE" className="register-icon" />
           ลงทะเบียนด้วย LINE
@@ -62,7 +62,7 @@ const Register: React.FC = () => {
         <button type="button" className="register-btn-google">
           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png" alt="Google" className="register-icon" />
           ลงทะเบียนด้วย Google
-        </button>
+        </button> */}
         <div className="register-login-link">
           มีบัญชีอยู่แล้ว ? <a href="/login">เข้าสู่ระบบ</a>
         </div>
