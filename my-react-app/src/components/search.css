@@ -70,7 +70,7 @@
 
 .zone-tag {
   background: #ffe5cc;
-  color: #ff9800;
+  color: #ff7636;
   border-radius: 8px;
   padding: 6px 16px;
   font-weight: bold;
@@ -124,16 +124,16 @@
   position: absolute;
   left: 0;
   top: 54px;
-  background: #ff9800;
+  background: #ff7636;
   border-radius: 16px;
   padding: 18px;
   min-width: 100%;
   z-index: 20;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
-
+/* ff7636 */
 .zone-tag-selected {
-  background: #ffb36b !important;
+  background: #fcb492 !important;
   border-radius: 10px;
   padding: 2px 10px;
   margin-right: 4px;

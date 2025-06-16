@@ -110,18 +110,18 @@ const Management = () => {
                 alignItems: "center",
                 gap: 4,
                 fontWeight: 500,
-                background: "#ffb36b"
+                background: "rgb(255, 146, 95)"
               }}
             >
               เขต
-              <span style={{ color: "#f47c20", marginLeft: 2, fontSize: 18 }}>›</span>
+              <span style={{ color: "#FE5000", marginLeft: 2, fontSize: 18 }}>›</span>
             </button>
             {/* แสดงเขตที่เลือก */}
             {selectedZones.map((zone) => (
               <span
                 key={zone}
                 style={{
-                  background: "#ffb36b",
+                  background: "rgb(255, 146, 95)",
                   borderRadius: 10,
                   padding: "4px 14px 4px 14px",
                   marginRight: 4,
@@ -154,7 +154,7 @@ const Management = () => {
                   position: "absolute",
                   left: 0,
                   top: 48,
-                  background: "#ffb36b",
+                  background: "rgb(255, 145, 94)",
                   borderRadius: 14,
                   boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
                   zIndex: 10,
@@ -217,7 +217,7 @@ const Management = () => {
               >
                 <div className="management-item-info">
                   <span className="management-avatar">
-                    <svg width="28" height="28" fill="#ff9800" viewBox="0 0 24 24">
+                    <svg width="28" height="28" fill="#FE5000" viewBox="0 0 24 24">
                       <circle cx="12" cy="8" r="4"/>
                       <path d="M12 14c-5 0-8 2.5-8 4v2h16v-2c0-1.5-3-4-8-4z"/>
                     </svg>
