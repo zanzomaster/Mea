@@ -38,7 +38,7 @@ const Mailbox: React.FC = () => {
             <div
               key={mail.id}
               style={{
-                background: "#ffd2ad",
+                background: "#ffc5aa",
                 borderRadius: "8px",
                 padding: "16px 16px 16px 24px",
                 marginBottom: "16px",

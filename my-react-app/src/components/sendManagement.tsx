@@ -143,7 +143,7 @@ const SendManagement: React.FC = () => {
               <div>สัญชาติ: {profile.nationality}</div>
               <div>ศาสนา: {profile.religion}</div>
               <div>ระดับภาษาอังกฤษ: {profile.englishLevel}</div>
-              <div>Email: {profile.email}</div>
+              <div>Email: {data.user.email}</div>
               <div>เบอร์โทร: {profile.phone}</div>
               <div>วันที่เริ่มฝึกงาน: {profile.internshipStart ? profile.internshipStart.slice(0, 10) : "-"}</div>
               <div>วันที่สิ้นสุดฝึกงาน: {profile.internshipEnd ? profile.internshipEnd.slice(0, 10) : "-"}</div>
@@ -171,8 +171,12 @@ const SendManagement: React.FC = () => {
         </div>
 
         <div className="send-management-btn-row">
-          <button onClick={handleAccept} className="send-management-btn accept">ตกลงรับ</button>
-          <button onClick={handleReject} className="send-management-btn reject">ปฏิเสธ</button>
+          {data.status == null && (
+            <>
+              <button onClick={handleAccept} className="send-management-btn accept">ตกลงรับ</button>
+              <button onClick={handleReject} className="send-management-btn reject">ปฏิเสธ</button>
+            </>
+          )}
         </div>
         <div className="send-management-back-row">
           <button

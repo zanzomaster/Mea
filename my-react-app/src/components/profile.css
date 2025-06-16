@@ -1,5 +1,5 @@
 .profile-bg {
-  background: #ffe0c2;
+  background: #ff996a;
   border-radius: 16px;
   max-width: 1200px;
   margin: 120px auto 60px auto; /* ปรับ margin-top ให้มากขึ้น */
@@ -19,7 +19,7 @@
 }
 
 .profile-sidebar-btn {
-  background: #ffd2ad;
+  background: #ffc5aa;
   border: none;
   border-radius: 8px;
   padding: 16px 0;
@@ -30,7 +30,8 @@
 }
 .profile-sidebar-btn:hover,
 .profile-sidebar-btn.active {
-  background: #ffb97a;
+  background: #ff7636;
+  color: #fff;
 }
 
 .profile-form-container {
@@ -40,7 +41,7 @@
 }
 
 .profile-form {
-  background: #ffe5cc;
+  background: #ffc4a9;
   border-radius: 12px;
   padding: 32px 32px 24px 32px;
   width: 100%;
@@ -66,6 +67,7 @@
   height: 32px;      /* ปรับความสูงให้เล็กลง */
   margin-top: 8px;   /* เพิ่มช่องว่างด้านบน */
   margin-bottom: 0;
+  color: #333; /* ถ้าอยากให้ input ขาว ให้เปลี่ยนเป็น #fff */
 }
 
 .profile-input--long {
@@ -78,6 +80,7 @@
   height: 32px;      /* ปรับความสูงให้เล็กลง */
   margin-top: 8px;   /* เพิ่มช่องว่างด้านบน */
   margin-bottom: 0;
+  color: #333; /* ถ้าอยากให้ input ขาว ให้เปลี่ยนเป็น #fff */
 }
 
 .profile-radio-group {
@@ -87,7 +90,7 @@
 }
 
 .profile-submit-btn {
-  background: #f47c20;
+  background: #ff7636;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -97,7 +100,9 @@
   transition: background 0.15s;
 }
 .profile-submit-btn:hover {
-  background: #ff9800;
+  background: #ff7636;
 }
 
 /* และกำหนด style อื่นๆ สำหรับโปรไฟล์ */
+
+/* ปรับสีข้อความใน input ให้ขาว (ถ้าต้องการ) */

@@ -3,33 +3,43 @@
   font-weight: bold;
   font-size: 1.5rem;
   margin: 32px 0 16px 0;
+  color: #FE5000; /* สีส้มหลัก */
 }
 
 .internship-list-bg {
-  background: #ffe5cc;
+  background: #faebd3; /* สีพื้นอ่อนกว่าส้ม */
   border-radius: 10px;
   padding: 24px 0;
-  margin-top: 0; /* เดิม 24px แก้เป็น 0 */
+  margin-top: 0;
 }
 
 .internship-item {
-  background: #ffd2ad;
+  background: #ffd2ad; /* สีส้มอ่อน */
   border-radius: 8px;
   margin: 0 24px 18px 24px;
   padding: 18px 18px 18px 0;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #f7cfa6;
+  border-bottom: 1px solid #ffb36b; /* ขีดล่างสีส้มอ่อน */
+  transition: background 0.2s;
 }
 
 .internship-item:last-child {
   border-bottom: none;
 }
 
+.internship-item:hover {
+  background: #ff763699; /* hover เป็นส้มเข้มขึ้น */
+}
+
 .internship-logo {
   margin: 0 18px;
   width: 64px;
   height: 64px;
+  background: #fff3e0;
+  border-radius: 50%;
+  border: 2px solid #ff9800;
+  object-fit: cover;
 }
 
 .internship-info {
@@ -39,6 +49,7 @@
 .internship-office {
   font-weight: bold;
   font-size: 1.1rem;
+  color: #FE5000; /* สีส้มหลัก */
 }
 
 .internship-location-row {
@@ -48,7 +59,7 @@
 }
 
 .internship-address {
-  color: #666;
+  color: #ff9800; /* สีส้มรอง */
   font-size: 0.95rem;
 }
 
@@ -56,9 +67,11 @@
   display: flex;
   align-items: center;
   margin-top: 4px;
+  color: #FE5000;
 }
 
 .internship-arrow {
   display: flex;
   align-items: center;
+  color: #FE5000;
 }

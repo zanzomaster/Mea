@@ -1,5 +1,5 @@
 .register-bg {
-  background: #ffe0c2;
+  background: #ffc5aa;
   border-radius: 16px;
   max-width: 600px;
   margin: 100px auto 60px auto; /* เพิ่ม margin-top ให้มากขึ้น */
@@ -26,7 +26,7 @@
 }
 
 .register-btn {
-  background: #ff7a00;
+  background: #FE5000;
   color: #fff;
   border: none;
   border-radius: 8px;

@@ -90,7 +90,7 @@
 
 .navbar-btn.login {
   background: #fff;
-  color: #6d5c4d;
+  color: #222 !important; /* เปลี่ยนเป็นสีดำ */
 }
 
 .navbar-btn.signup {

@@ -127,10 +127,10 @@ const Profile: React.FC = () => {
               ))}
             </div>
           </div>
-          <div>
+          {/* <div>
             <label>Email</label>
             <input className="profile-input--long" name="email" value={form.email} onChange={handleChange} />
-          </div>
+          </div> */}
           <div>
             <label>เบอร์โทร</label>
             <input className="profile-input--long" name="phone" value={form.phone} onChange={handleChange} />
