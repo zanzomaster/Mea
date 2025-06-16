@@ -21,7 +21,7 @@ const allZones = [
   "ลาดกระบัง", "บางนา"
 ];
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 6;
 
 const Management = () => {
   const navigate = useNavigate();
