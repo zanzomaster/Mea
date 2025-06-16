@@ -21,6 +21,8 @@ const allZones = [
   "ลาดกระบัง", "บางนา"
 ];
 
+const ITEMS_PER_PAGE = 5;
+
 const Management = () => {
   const navigate = useNavigate();
   const [applications, setApplications] = useState<ApplicationType[]>([]);
@@ -28,6 +30,7 @@ const Management = () => {
   const [selectedZones, setSelectedZones] = useState<string[]>([]);
   const [showZoneList, setShowZoneList] = useState(false);
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
 
   // โหลดข้อมูลจาก backend
   useEffect(() => {
@@ -67,8 +70,14 @@ const Management = () => {
     return matchZone && matchSearch;
   });
 
+  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+  const pagedApplications = filtered.slice(
+    (page - 1) * ITEMS_PER_PAGE,
+    page * ITEMS_PER_PAGE
+  );
+
   const handleClick = (idx: number) => {
-    navigate(`/sendmanagement/${filtered[idx].id}`, { state: { idx } });
+    navigate(`/sendmanagement/${pagedApplications[idx].id}`, { state: { idx } });
   };
 
   const handleZoneBtnClick = () => setShowZoneList((prev) => !prev);
@@ -208,7 +217,7 @@ const Management = () => {
             )}
           </div>
           <div className="management-list">
-            {filtered.map((app, idx) => (
+            {pagedApplications.map((app, idx) => (
               <div
                 className="management-item"
                 key={app.id}
@@ -265,8 +274,23 @@ const Management = () => {
             ))}
           </div>
           <div className="management-pagination">
-            1
-            <span className="management-pagination-arrow">›</span>
+            <button
+              disabled={page === 1}
+              onClick={() => setPage(page - 1)}
+              className="management-pagination-arrow"
+            >
+              ‹
+            </button>
+            <span style={{ margin: "0 12px" }}>
+              {page} / {totalPages}
+            </span>
+            <button
+              disabled={page === totalPages}
+              onClick={() => setPage(page + 1)}
+              className="management-pagination-arrow"
+            >
+              ›
+            </button>
           </div>
         </div>
       </div>
