@@ -1,6 +1,8 @@
+@import "leaflet/dist/leaflet.css";
+
 /* ขยับเนื้อหาทั้งหมดลงมาให้ไม่ชน navbar */
 .office-container {
-  padding-top: 15px; /* ปรับให้ตรงกับความสูงของ navbar */
+  padding-top: 64px; /* ปรับให้เท่ากับความสูง navbar จริง */
   background: #fff;
   min-height: 100vh;
 }
@@ -130,4 +132,16 @@
 .contact-icon {
   display: inline-flex;
   align-items: center;
+}
+
+/* ให้ navbar อยู่บนสุดเสมอ */
+.navbar {
+  z-index: 1001 !important;
+}
+
+/* ลด z-index ของแผนที่ leaflet */
+.leaflet-top,
+.leaflet-bottom,
+.leaflet-pane {
+  z-index: 100 !important;
 }

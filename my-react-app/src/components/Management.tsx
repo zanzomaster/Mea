@@ -226,32 +226,41 @@ const Management = () => {
                     {app.user.name} | {app.internship.office} {app.internship.location && `(${app.internship.location})`}
                   </span>
                 </div>
-                <span>
-                  {app.status === "accept" && (
-                    <svg width="28" height="28" fill="none" stroke="#4caf50" strokeWidth="3" viewBox="0 0 24 24">
-                      <polyline points="20 6 10 18 4 12" />
-                    </svg>
-                  )}
-                  {app.status === "reject" && (
-                    <svg width="28" height="28" fill="none" stroke="#f44336" strokeWidth="3" viewBox="0 0 24 24">
-                      <line x1="6" y1="6" x2="18" y2="18" />
-                      <line x1="6" y1="18" x2="18" y2="6" />
-                    </svg>
-                  )}
-                  {app.status == null && (
-                    <svg width="28" height="28" fill="none" stroke="#ff9800" strokeWidth="3" viewBox="0 0 24 24">
-                      <path d="M9 6l6 6-6 6" />
-                    </svg>
-                  )}
+                <span className="management-status-row">
+                  <span className="management-status-icon">
+                    {app.status === "accept" && (
+                      <svg width="28" height="28" fill="none" stroke="#4caf50" strokeWidth="3" viewBox="0 0 24 24">
+                        <polyline points="20 6 10 18 4 12" />
+                      </svg>
+                    )}
+                    {app.status === "reject" && (
+                      <svg width="28" height="28" fill="none" stroke="#f44336" strokeWidth="3" viewBox="0 0 24 24">
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                        <line x1="6" y1="18" x2="18" y2="6" />
+                      </svg>
+                    )}
+                    {app.status == null && (
+                      <svg width="28" height="28" fill="none" stroke="#ff9800" strokeWidth="3" viewBox="0 0 24 24">
+                        <path d="M9 6l6 6-6 6" />
+                      </svg>
+                    )}
+                  </span>
+                  <span
+                    className="management-status-text"
+                    style={{
+                      color:
+                        app.status === "accept"
+                          ? "#4caf50"
+                          : app.status === "reject"
+                          ? "#f44336"
+                          : "#ff9800",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {app.status === "accept" && "ตอบรับแล้ว"}
+                    {app.status === "reject" && "ปฏิเสธ"}
+                  </span>
                 </span>
-                <div className="management-status">
-                  {app.status === "accept" && (
-                    <span style={{ color: "#4caf50", fontWeight: 600 }}>ตอบรับแล้ว</span>
-                  )}
-                  {app.status === "reject" && (
-                    <span style={{ color: "#f44336", fontWeight: 600 }}>ปฏิเสธ</span>
-                  )}
-                </div>
               </div>
             ))}
           </div>

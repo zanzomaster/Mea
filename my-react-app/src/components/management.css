@@ -79,6 +79,27 @@
   border: 2px solid #ff9800;
 }
 
+.management-status-row {
+  display: flex;
+  align-items: center;
+  min-width: 140px; /* ปรับตามต้องการ */
+  justify-content: flex-start;
+}
+
+.management-status-icon {
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+
+.management-status-text {
+  min-width: 80px;
+  text-align: left;
+}
+
 .management-pagination {
   text-align: center;
   margin-top: 32px;

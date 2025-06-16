@@ -1,5 +1,5 @@
 .navbar {
-  background: #fde1c7;
+  background: #FE5000;
   display: flex;
   align-items: center;
   padding: 0 32px;
@@ -120,7 +120,7 @@
   flex-direction: column;
   align-items: stretch; /* เพิ่มบรรทัดนี้ */
   min-width: 240px;
-  background: #ffb381;
+  background: #ff7636;
   border-radius: 12px;
   padding: 16px 0 8px 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -166,4 +166,25 @@
   font-weight: bold;
   text-align: left;
   grid-column: auto;
+}
+
+/* ทำให้ตัวอักษรและไอคอนใน navbar เป็นสีขาว */
+.navbar,
+.navbar * {
+  color: #fff !important;
+  fill: #fff !important;
+}
+
+/* ถ้าต้องการให้เฉพาะเมนูหลักเป็นสีขาว */
+.navbar-center,
+.navbar-menu-item,
+.navbar-menu-arrow {
+  color: #fff !important;
+}
+
+/* ถ้าต้องการให้โลโก้หรือ subtitle เป็นสีอื่น ให้ override เฉพาะจุด */
+.navbar-title,
+.navbar-subtitle,
+.navbar-en-title {
+  color: #fff !important;
 }

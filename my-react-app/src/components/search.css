@@ -1,5 +1,5 @@
 .search-bar-bg {
-  background: #ff7a00;
+  background: #FE5000;
   padding: 32px 0;
   border-radius: 12px;
   display: flex;
@@ -34,7 +34,7 @@
   padding: 12px 32px;
   border-radius: 8px;
   border: none;
-  background: #ffd2ad;
+  background: #ff7636;
   color: #333;
   font-size: 1rem;
   cursor: pointer;
@@ -42,7 +42,7 @@
 }
 
 .search-bar-btn:hover {
-  background: #ffb97a;
+  background: #ffffff;
 }
 
 .zone-tag-box {
