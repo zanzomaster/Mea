@@ -4,6 +4,8 @@ import "./imageSection.css";
 const images = [
   "https://foretoday.asia/wp-content/uploads/2024/08/Design-A-Dark-BG-5-1024x536.png",
   "https://ap-southeast-2-seek-apac.graphassets.com/AEzBCRO50TYyqbV6XzRDQz/9xFH8cAERaaTTHDVwS5Y",
+  "https://foretoday.asia/wp-content/uploads/2024/08/Design-A-Dark-BG-5-1024x536.png",
+  "https://ap-southeast-2-seek-apac.graphassets.com/AEzBCRO50TYyqbV6XzRDQz/9xFH8cAERaaTTHDVwS5Y",
   // เพิ่ม URL รูปอื่นๆ ได้ที่นี่
 ];
 
