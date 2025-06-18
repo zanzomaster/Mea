@@ -17,11 +17,15 @@ const Internship: React.FC = () => {
   const [internships, setInternships] = useState<InternshipType[]>([]);
   const [search, setSearch] = useState("");
   const [selectedZones, setSelectedZones] = useState<string[]>([]);
+  const [userRole, setUserRole] = useState<string | null>(null); // เพิ่ม state สำหรับ role
 
   useEffect(() => {
     fetch("http://localhost:5000/internships")
       .then((res) => res.json())
       .then((data) => setInternships(data));
+    // ดึง role จาก localStorage (หรือที่เก็บ token/role)
+    const role = localStorage.getItem("role"); // สมมติ login แล้วเก็บ role ไว้
+    setUserRole(role);
   }, []);
 
   // ฟังก์ชัน filter
@@ -68,7 +72,7 @@ const Internship: React.FC = () => {
             <div
               className="internship-item"
               key={item.id}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", position: "relative" }}
               onClick={() => handleClick(item.id)}
             >
               <img src="https://mapapi.mea.or.th/static/media/logo3.8549861c.png" alt="logo" className="internship-logo" />
@@ -90,6 +94,47 @@ const Internship: React.FC = () => {
                   <path d="M9 6l6 6-6 6" />
                 </svg>
               </div>
+              {/* ปุ่มแก้ไขและลบ (แสดงเฉพาะ admin) */}
+              {userRole === "ADMIN" && (
+                <div style={{ position: "absolute", top: 10, right: 10, display: "flex", gap: 8, zIndex: 2 }}>
+                  <button
+                    onClick={e => {
+                      e.stopPropagation();
+                      navigate(`/edit-internship/${item.id}`);
+                    }}
+                    style={{
+                      background: "#ffd966",
+                      border: "none",
+                      borderRadius: 4,
+                      padding: "4px 10px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    แก้ไข
+                  </button>
+                  <button
+                    onClick={async e => {
+                      e.stopPropagation();
+                      if (window.confirm("ต้องการลบข้อมูลนี้ใช่หรือไม่?")) {
+                        await fetch(`http://localhost:5000/internships/${item.id}`, {
+                          method: "DELETE"
+                        });
+                        setInternships(internships => internships.filter(i => i.id !== item.id));
+                      }
+                    }}
+                    style={{
+                      background: "#ff7875",
+                      border: "none",
+                      borderRadius: 4,
+                      padding: "4px 10px",
+                      color: "#fff",
+                      cursor: "pointer"
+                    }}
+                  >
+                    ลบ
+                  </button>
+                </div>
+              )}
             </div>
           ))}
         </div>

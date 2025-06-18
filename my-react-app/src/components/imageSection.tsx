@@ -3,9 +3,9 @@ import "./imageSection.css";
 
 const images = [
   "https://foretoday.asia/wp-content/uploads/2024/08/Design-A-Dark-BG-5-1024x536.png",
-  "https://ap-southeast-2-seek-apac.graphassets.com/AEzBCRO50TYyqbV6XzRDQz/9xFH8cAERaaTTHDVwS5Y",
-  "https://foretoday.asia/wp-content/uploads/2024/08/Design-A-Dark-BG-5-1024x536.png",
-  "https://ap-southeast-2-seek-apac.graphassets.com/AEzBCRO50TYyqbV6XzRDQz/9xFH8cAERaaTTHDVwS5Y",
+  "https://www.ict.mahidol.ac.th/thai/wp-content/uploads/2021/05/Cover-Internship-in-Thailand.png",
+  "https://scbtechx.io/wp-content/uploads/2023/01/other_internship-1024x757.png",
+  "https://academic.swu.ac.th/Portals/62/EasyDNNNews/6656/600600p14049EDNthumbimg-357541873_649360190561753_2521784235876263986_n.jpg",
   // เพิ่ม URL รูปอื่นๆ ได้ที่นี่
 ];
 

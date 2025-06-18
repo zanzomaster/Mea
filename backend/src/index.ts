@@ -338,6 +338,32 @@ app.post("/change-password", async (req: Request, res: Response) => {
   res.json({ message: "เปลี่ยนรหัสผ่านสำเร็จ" });
 });
 
+// DELETE internship (ลบข้อมูลฝึกงาน)
+app.delete("/internships/:id", async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+  try {
+    await prisma.internship.delete({ where: { id } });
+    res.json({ message: "ลบข้อมูลฝึกงานสำเร็จ" });
+  } catch (error) {
+    res.status(400).json({ error: "เกิดข้อผิดพลาดในการลบข้อมูลฝึกงาน" });
+  }
+});
+
+// PUT internship (แก้ไขข้อมูลฝึกงาน)
+app.put("/internships/:id", async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+  const { office, desc, location, address, count } = req.body;
+  try {
+    const updated = await prisma.internship.update({
+      where: { id },
+      data: { office, desc, location, address, count }
+    });
+    res.json(updated);
+  } catch (error) {
+    res.status(400).json({ error: "เกิดข้อผิดพลาดในการแก้ไขข้อมูลฝึกงาน" });
+  }
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

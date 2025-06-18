@@ -21,6 +21,7 @@ import Management from "./components/Management";
 import SendInternship from "./components/sendInternship";
 import SendManagement from "./components/sendManagement";
 import AddLocation from "./components/addLocation";
+import EditInternship from "./components/editInternship";
 
 
 function App() {
@@ -72,6 +73,7 @@ function App() {
         <Route path="/send/:id" element={<SendInternship />} />
         <Route path="/sendmanagement/:id" element={<SendManagement />} />
         <Route path="/add-location" element={<AddLocation />} />
+        <Route path="/edit-internship/:id" element={<EditInternship />} />
         {/* เพิ่มเส้นทางอื่น ๆ ตามต้องการ */}
       </Routes>
     </Router>
