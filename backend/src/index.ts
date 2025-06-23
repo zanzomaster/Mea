@@ -301,7 +301,7 @@ app.put("/internship-applications/:id/status", async (req: Request, res: Respons
         title: "ผลการสมัครฝึกงาน",
         message:
           status === "accept"
-            ? `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณได้รับการตอบรับแล้ว ให้ส่งเอกสารขอฝึกงานที่ Email lib_trd@mea.or.th`
+            ? `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณได้รับการตอบรับแล้ว กรุณาส่งเอกสารขอฝึกงานมหาวิทยาลัยผ่านระบบนี้`
             : `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณไม่ได้รับการตอบรับ`,
       },
     });
@@ -314,7 +314,7 @@ app.put("/internship-applications/:id/status", async (req: Request, res: Respons
 
 app.get("/mailbox", async (req: Request, res: Response) => {
   const userId = Number(req.query.userId);
-  if (!userId) return res.status(400).json({ error: "ต้องระบุ userId" });
+  if (!userId) return res.status(400).json({ error: "no userId" });
   const mails = await prisma.mailbox.findMany({
     where: { userId },
     orderBy: { createdAt: "desc" }
@@ -362,6 +362,50 @@ app.put("/internships/:id", async (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).json({ error: "เกิดข้อผิดพลาดในการแก้ไขข้อมูลฝึกงาน" });
   }
+});
+
+app.post("/mailbox/send-file", upload.array("files"), async (req: Request, res: Response) => {
+  const { mailboxId, message } = req.body;
+  const files = req.files as Express.Multer.File[];
+  if (!mailboxId || !files || files.length === 0) return res.status(400).json({ error: "ข้อมูลไม่ครบ" });
+
+  // ดึงข้อความเดิม
+  const mailbox = await prisma.mailbox.findUnique({ where: { id: Number(mailboxId) } });
+  let oldFiles = "";
+  if (mailbox && mailbox.message) {
+    const match = mailbox.message.match(/\[แนบไฟล์\](.*)/s);
+    if (match) oldFiles = match[1].trim();
+  }
+  // รวม path ของไฟล์ทั้งหมด (ของเดิม + ใหม่)
+  const newFilePaths = files.map(f => f.path).join(", ");
+  const allFiles = [oldFiles, newFilePaths].filter(Boolean).join(", ");
+
+  // อัปเดต mailbox เดิม (ของ user)
+  await prisma.mailbox.update({
+    where: { id: Number(mailboxId) },
+    data: {
+      message: (message ? message + "\n" : mailbox?.message?.replace(/\[แนบไฟล์\].*/s, "") || "") + `[แนบไฟล์] ${allFiles}`,
+      isRead: false
+    }
+  });
+
+  // สร้าง mailbox ใหม่ให้ admin (userId = 1)
+  if (mailbox) {
+    await prisma.mailbox.create({
+      data: {
+        userId: 1, // admin
+        title: `ผู้ใช้ ${mailbox.userId} ส่งไฟล์ตอบกลับ`,
+        message:
+          `ผู้ใช้ ${mailbox.userId} ส่งไฟล์ตอบกลับในหัวข้อ "${mailbox.title}"\n` +
+          (message ? `ข้อความ: ${message}\n` : "") +
+          `[แนบไฟล์] ${newFilePaths}`,
+        isRead: false
+      }
+    });
+    console.log("สร้างจดหมายใหม่ให้ admin แล้ว");
+  }
+
+  res.json({ message: "ส่งไฟล์สำเร็จ" });
 });
 
 const port = process.env.PORT || 5000;
