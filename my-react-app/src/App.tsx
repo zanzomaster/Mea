@@ -8,7 +8,6 @@ import Login from './components/Login';
 import Profile from './components/Profile';
 import Education from "./components/Education";
 import Mailbox from "./components/Mailbox";
-import MailboxSend from "./components/MailboxSend";
 import Internship from "./components/Internship";
 import ZoneSelect from "./components/ZoneSelect";
 import NewsEducation from "./components/news/Education";
@@ -63,7 +62,6 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/education" element={<Education />} />
         <Route path="/mailbox" element={<Mailbox />} />
-        <Route path="/mailbox/send/:id" element={<MailboxSend />} />
         <Route path="/news/education" element={<NewsEducation />} />
         <Route path="/news/job" element={<NewsJob />} />
         <Route path="/news/holiday" element={<NewsHoliday />} />
