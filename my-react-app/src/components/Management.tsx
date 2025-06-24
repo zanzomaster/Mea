@@ -32,6 +32,20 @@ const Management = () => {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
+  // โหลดเขตที่ admin มีสิทธิ์จาก localStorage (default)
+  useEffect(() => {
+    // สมมติ login frontend เก็บ adminZones เป็น array ของชื่อเขต
+    const adminZones = localStorage.getItem("adminZones");
+    if (adminZones) {
+      try {
+        const zones = JSON.parse(adminZones);
+        if (Array.isArray(zones) && zones.length > 0) {
+          setSelectedZones(zones);
+        }
+      } catch {}
+    }
+  }, []);
+
   // โหลดข้อมูลจาก backend
   useEffect(() => {
     fetch("http://localhost:5000/internship-applications")
