@@ -18,7 +18,6 @@ model User {
   applications InternshipApplication[] // <-- เพิ่มบรรทัดนี้
   createdAt   DateTime     @default(now())
   Mailboxs   Mailbox[]   // เพิ่มบรรทัดนี้
-  zones Zone[] @relation("AdminZones") // เพิ่ม relation many-to-many admin-zone
 }
 
 model Profile {
@@ -65,7 +64,6 @@ model Zone {
   id    Int    @id @default(autoincrement())
   name  String @unique
   offices Office[]
-  users User[] @relation("AdminZones") // เพิ่ม relation many-to-many admin-zone
 }
 
 model Office {

@@ -64,19 +64,21 @@ const SendManagement: React.FC = () => {
   }, [data?.user?.id]);
 
   const handleAccept = async () => {
+    const adminId = localStorage.getItem("userId"); // หรือดึงจาก context/store
     await fetch(`http://localhost:5000/internship-applications/${data?.id}/status`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: "accept" }),
+      body: JSON.stringify({ status: "accept", adminId }), // ส่ง adminId ไปด้วย
     });
     navigate(-1);
   };
 
   const handleReject = async () => {
+    const adminId = localStorage.getItem("userId");
     await fetch(`http://localhost:5000/internship-applications/${data?.id}/status`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: "reject" }),
+      body: JSON.stringify({ status: "reject", adminId }),
     });
     navigate(-1);
   };

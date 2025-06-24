@@ -318,7 +318,7 @@ app.get("/internship-applications/internship/:internshipId", async (req: Request
 
 app.put("/internship-applications/:id/status", async (req: Request, res: Response) => {
   const id = Number(req.params.id);
-  const { status } = req.body;
+  const { status, adminId } = req.body;
   if (!["accept", "reject"].includes(status)) {
     return res.status(400).json({ error: "สถานะไม่ถูกต้อง" });
   }
@@ -329,14 +329,18 @@ app.put("/internship-applications/:id/status", async (req: Request, res: Respons
       include: { user: true, internship: true }
     });
 
+    let adminEmail = "lib_trd@mea.or.th";
+    if (adminId) {
+      const admin = await prisma.user.findUnique({ where: { id: Number(adminId) } });
+      if (admin && admin.email) {
+        adminEmail = admin.email;
+      }
+    }
     await prisma.mailbox.create({
       data: {
         userId: updated.userId,
         title: "ผลการสมัครฝึกงาน",
-        message:
-          status === "accept"
-            ? `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณได้รับการตอบรับแล้ว ให้ส่งเอกสารขอฝึกงานที่ Email lib_trd@mea.or.th`
-            : `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณไม่ได้รับการตอบรับ`,
+        message: `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณได้รับการตอบรับแล้ว ให้ส่งเอกสารขอฝึกงานที่ Email ${adminEmail}`,
       },
     });
 
