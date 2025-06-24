@@ -340,7 +340,7 @@ app.put("/internship-applications/:id/status", async (req: Request, res: Respons
       data: {
         userId: updated.userId,
         title: "ผลการสมัครฝึกงาน",
-        message: `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณได้รับการตอบรับแล้ว ให้ส่งเอกสารขอฝึกงานที่ Email ${adminEmail}`,
+        message: `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณได้รับการตอบรับแล้ว ให้ส่งเอกสารขอฝึกงานที่ Gmail ${adminEmail}`,
       },
     });
 
