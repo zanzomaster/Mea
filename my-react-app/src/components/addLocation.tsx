@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./addLocation.css";
 
@@ -9,7 +9,27 @@ const AddLocation: React.FC = () => {
   const [address, setAddress] = useState("");
   const [count, setCount] = useState<number | "">("");
   const [error, setError] = useState("");
+  const [zones, setZones] = useState<{id: number, name: string}[]>([]);
+  const [adminZoneIds, setAdminZoneIds] = useState<number[]>([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // ดึงเขตทั้งหมดจาก backend
+    fetch("http://localhost:5000/zones")
+      .then(res => res.json())
+      .then(data => setZones(data));
+    // ดึง id เขตที่ admin มีสิทธิ์จาก localStorage
+    const ids = JSON.parse(localStorage.getItem("adminZoneIds") || "[]");
+    setAdminZoneIds(ids);
+  }, []);
+
+  // Auto-select เขตเดียวถ้ามีสิทธิ์แค่ 1 เขต
+  useEffect(() => {
+    if (adminZoneIds.length === 1 && zones.length > 0) {
+      const zone = zones.find(z => z.id === adminZoneIds[0]);
+      if (zone) setLocation(zone.name);
+    }
+  }, [adminZoneIds, zones]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +45,7 @@ const AddLocation: React.FC = () => {
       });
       if (res.ok) {
         alert("เพิ่มข้อมูลฝึกงานสำเร็จ");
-        navigate("/"); // หรือจะ navigate ไปหน้า internship list ก็ได้
+        navigate("/");
       } else {
         const data = await res.json();
         setError(data.error || "เกิดข้อผิดพลาด");
@@ -44,7 +64,18 @@ const AddLocation: React.FC = () => {
         <label>รายละเอียด</label>
         <textarea className="add-location-input" value={desc} onChange={e => setDesc(e.target.value)} />
         <label>เขต/โซน</label>
-        <input className="add-location-input" value={location} onChange={e => setLocation(e.target.value)} />
+        <select
+          className="add-location-input"
+          value={location}
+          onChange={e => setLocation(e.target.value)}
+          required
+          disabled={adminZoneIds.length === 1} // disable ถ้ามีสิทธิ์แค่ 1 เขต
+        >
+          <option value="">-- เลือกเขต --</option>
+          {zones.filter(z => adminZoneIds.includes(z.id)).map(zone => (
+            <option key={zone.id} value={zone.name}>{zone.name}</option>
+          ))}
+        </select>
         <label>ที่อยู่</label>
         <input className="add-location-input" value={address} onChange={e => setAddress(e.target.value)} />
         <label>จำนวนรับ</label>

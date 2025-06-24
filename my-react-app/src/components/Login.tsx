@@ -38,7 +38,15 @@ const Login: React.FC<{ setUser: (user: { name: string; role: string }) => void 
         setUser({ name: data.user.name, role: data.user.role });
         localStorage.setItem("userId", data.user.id);
         localStorage.setItem("role", data.user.role);
-        localStorage.setItem("userName", data.user.name); // <-- เพิ่มบรรทัดนี้
+        localStorage.setItem("userName", data.user.name);
+        // เก็บ id เขตที่ admin ดูแลไว้ใน localStorage (ถ้ามี zones)
+        if (data.user.zones) {
+          const zoneIds = data.user.zones.map((z: any) => z.id);
+          localStorage.setItem("adminZoneIds", JSON.stringify(zoneIds));
+          // (ถ้าอยากเก็บชื่อเขตด้วย)
+          const zoneNames = data.user.zones.map((z: any) => z.name);
+          localStorage.setItem("adminZones", JSON.stringify(zoneNames));
+        }
         navigate("/");
       } else {
         setError(data.error || "เกิดข้อผิดพลาด");

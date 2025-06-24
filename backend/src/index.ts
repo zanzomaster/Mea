@@ -54,11 +54,24 @@ app.post("/login", async (req: Request, res: Response) => {
   if (!email || !password) {
     return res.status(400).json({ error: "กรุณากรอกข้อมูลให้ครบถ้วน" });
   }
-  const user = await prisma.user.findUnique({ where: { email } });
+  // ดึง user พร้อม zones
+  const user = await prisma.user.findUnique({
+    where: { email },
+    include: { zones: true }
+  });
   if (!user || user.password !== password) {
     return res.status(401).json({ error: "อีเมลหรือรหัสผ่านไม่ถูกต้อง" });
   }
-  res.json({ message: "เข้าสู่ระบบสำเร็จ", user: { id: user.id, name: user.name, email: user.email, role: user.role } });
+  res.json({
+    message: "เข้าสู่ระบบสำเร็จ",
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      zones: user.zones
+    }
+  });
 });
 
 // GET profile by userId (เช่น /profile?userId=1)
@@ -361,6 +374,32 @@ app.put("/internships/:id", async (req: Request, res: Response) => {
     res.json(updated);
   } catch (error) {
     res.status(400).json({ error: "เกิดข้อผิดพลาดในการแก้ไขข้อมูลฝึกงาน" });
+  }
+});
+
+// GET zones ทั้งหมด
+app.get("/zones", async (req: Request, res: Response) => {
+  try {
+    const zones = await prisma.zone.findMany({
+      include: { offices: true } // ถ้าอยากได้ office ในแต่ละ zone ด้วย
+    });
+    res.json(zones);
+  } catch (error) {
+    res.status(500).json({ error: "เกิดข้อผิดพลาดในการดึงข้อมูล zone" });
+  }
+});
+
+// POST zone (เพิ่มเขตใหม่)
+app.post("/zones", async (req: Request, res: Response) => {
+  const { name } = req.body;
+  if (!name) {
+    return res.status(400).json({ error: "กรุณาระบุชื่อเขต (name)" });
+  }
+  try {
+    const zone = await prisma.zone.create({ data: { name } });
+    res.json(zone);
+  } catch (error) {
+    res.status(400).json({ error: "เกิดข้อผิดพลาดในการเพิ่มเขต" });
   }
 });
 

@@ -18,6 +18,7 @@ const Internship: React.FC = () => {
   const [search, setSearch] = useState("");
   const [selectedZones, setSelectedZones] = useState<string[]>([]);
   const [userRole, setUserRole] = useState<string | null>(null); // เพิ่ม state สำหรับ role
+  const [adminZones, setAdminZones] = useState<string[]>([]);
 
   useEffect(() => {
     fetch("http://localhost:5000/internships")
@@ -26,6 +27,9 @@ const Internship: React.FC = () => {
     // ดึง role จาก localStorage (หรือที่เก็บ token/role)
     const role = localStorage.getItem("role"); // สมมติ login แล้วเก็บ role ไว้
     setUserRole(role);
+    // สมมติ login แล้วเก็บชื่อเขต admin ไว้ใน localStorage เป็น array ของชื่อเขต เช่น ["บางกะปิ", "จตุจักร"]
+    const zones = JSON.parse(localStorage.getItem("adminZones") || "[]");
+    setAdminZones(zones);
   }, []);
 
   // ฟังก์ชัน filter
@@ -95,7 +99,7 @@ const Internship: React.FC = () => {
                 </svg>
               </div>
               {/* ปุ่มแก้ไขและลบ (แสดงเฉพาะ admin) */}
-              {userRole === "ADMIN" && (
+              {userRole === "ADMIN" && adminZones.includes(item.location || "") && (
                 <div style={{ position: "absolute", top: 10, right: 10, display: "flex", gap: 8, zIndex: 2 }}>
                   <button
                     onClick={e => {
