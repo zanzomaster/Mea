@@ -34,14 +34,22 @@ app.get("/users", async (req: Request, res: Response) => {
 });
 
 app.post("/users", async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role, zoneIds } = req.body;
   if (!name || !email || !password) {
     return res.status(400).json({ error: "กรุณากรอกข้อมูลให้ครบถ้วน" });
   }
-
   try {
     const user = await prisma.user.create({
-      data: { name, email, password },
+      data: {
+        name,
+        email,
+        password,
+        role: role || "admin",
+        zones: zoneIds && Array.isArray(zoneIds)
+          ? { connect: zoneIds.map((id: number) => ({ id })) }
+          : undefined
+      },
+      include: { zones: true }
     });
     res.json({ message: "สมัครสมาชิกสำเร็จ", user });
   } catch (error) {
