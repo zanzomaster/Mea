@@ -44,14 +44,27 @@ app.post("/users", async (req: Request, res: Response) => {
         name,
         email,
         password,
-        role: role || "admin",
-        zones: zoneIds && Array.isArray(zoneIds)
-          ? { connect: zoneIds.map((id: number) => ({ id })) }
-          : undefined
-      },
-      include: { zones: true }
+        role: role || "admin"
+      }
     });
-    res.json({ message: "สมัครสมาชิกสำเร็จ", user });
+
+    let updatedUser = user;
+    if (zoneIds && Array.isArray(zoneIds) && zoneIds.length > 0) {
+      updatedUser = await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          zones: { connect: zoneIds.map((id: number) => ({ id })) }
+        },
+        include: { zones: true }
+      });
+    } else {
+      updatedUser = await prisma.user.findUnique({
+        where: { id: user.id },
+        include: { zones: true }
+      }) as typeof user & { zones: any };
+    }
+
+    res.json({ message: "สมัครสมาชิกสำเร็จ", user: updatedUser });
   } catch (error) {
     res.status(400).json({ error: "อีเมลนี้ถูกใช้ไปแล้ว" });
   }
