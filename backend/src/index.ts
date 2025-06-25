@@ -212,10 +212,16 @@ app.post("/education", async (req: Request, res: Response) => {
   }
 });
 
-// GET internships ทั้งหมด
+// GET internships ทั้งหมด (แสดงเฉพาะที่ count > 0 หรือ count เป็น null)
 app.get("/internships", async (req: Request, res: Response) => {
   try {
     const internships = await prisma.internship.findMany({
+      where: {
+        OR: [
+          { count: { gt: 0 } },
+          { count: null } // เผื่อกรณีข้อมูลเก่าไม่มี count
+        ]
+      },
       orderBy: { id: "desc" }
     });
     res.json(internships);
@@ -329,6 +335,25 @@ app.put("/internship-applications/:id/status", async (req: Request, res: Respons
       include: { user: true, internship: true }
     });
 
+    let deletedInternship = false;
+    // ถ้ากดรับ ให้ลด count ของ internship ลง 1
+    if (status === "accept" && updated.internship && updated.internship.count != null) {
+      // อัปเดต count ก่อน แล้วค่อยเช็คและลบ
+      const newInternship = await prisma.internship.update({
+        where: { id: updated.internship.id },
+        data: { count: { decrement: 1 } },
+        select: { id: true, count: true }
+      });
+      if (newInternship.count !== null && newInternship.count <= 0) {
+        try {
+          await prisma.internship.delete({ where: { id: newInternship.id } });
+          deletedInternship = true;
+        } catch (e) {
+          deletedInternship = true;
+        }
+      }
+    }
+
     let adminEmail = "lib_trd@mea.or.th";
     if (adminId) {
       const admin = await prisma.user.findUnique({ where: { id: Number(adminId) } });
@@ -344,7 +369,7 @@ app.put("/internship-applications/:id/status", async (req: Request, res: Respons
       },
     });
 
-    res.json(updated);
+    res.json({ ...updated, deletedInternship });
   } catch (error) {
     res.status(400).json({ error: "เกิดข้อผิดพลาดในการอัปเดตสถานะ" });
   }
