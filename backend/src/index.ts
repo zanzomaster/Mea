@@ -361,13 +361,23 @@ app.put("/internship-applications/:id/status", async (req: Request, res: Respons
         adminEmail = admin.email;
       }
     }
-    await prisma.mailbox.create({
-      data: {
-        userId: updated.userId,
-        title: "ผลการสมัครฝึกงาน",
-        message: `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณได้รับการตอบรับแล้ว ให้ส่งเอกสารขอฝึกงานที่ Gmail ${adminEmail}`,
-      },
-    });
+    if (status === "accept") {
+      await prisma.mailbox.create({
+        data: {
+          userId: updated.userId,
+          title: "ผลการสมัครฝึกงาน",
+          message: `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณได้รับการตอบรับแล้ว ให้ส่งเอกสารขอฝึกงานที่ Gmail ${adminEmail}`,
+        },
+      });
+    } else if (status === "reject") {
+      await prisma.mailbox.create({
+        data: {
+          userId: updated.userId,
+          title: "ผลการสมัครฝึกงาน",
+          message: `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณถูกปฏิเสธ`,
+        },
+      });
+    }
 
     res.json({ ...updated, deletedInternship });
   } catch (error) {
