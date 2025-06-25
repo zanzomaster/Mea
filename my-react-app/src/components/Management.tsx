@@ -119,27 +119,8 @@ const Management = () => {
       <div className="management-title">การจัดการ</div>
       <div className="management-container">
         <div className="management-content">
-          <div className="management-zone-btn-row" style={{ display: "flex", gap: 12, alignItems: "center", position: "relative" }}>
-            {/* ปุ่มเลือกเขต */}
-            <button
-              className="management-zone-btn"
-              type="button"
-              onClick={handleZoneBtnClick}
-              style={{
-                minWidth: 80,
-                border: showZoneList ? "2px solid #2196f3" : "2px solid transparent",
-                color: "#222",
-                display: "flex",
-                alignItems: "center",
-                gap: 4,
-                fontWeight: 500,
-                background: "rgb(255, 146, 95)"
-              }}
-            >
-              เขต
-              <span style={{ color: "#FE5000", marginLeft: 2, fontSize: 18 }}>›</span>
-            </button>
-            {/* แสดงเขตที่เลือก */}
+          {/* แสดง tag เขตที่ admin มีสิทธิ์ดู (ไม่มีปุ่ม x, ไม่มีปุ่มเขต) */}
+          <div className="management-zone-btn-row" style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 16 }}>
             {selectedZones.map((zone) => (
               <span
                 key={zone}
@@ -155,80 +136,8 @@ const Management = () => {
                 }}
               >
                 {zone}
-                <span
-                  style={{
-                    color: "#f44336",
-                    marginLeft: 6,
-                    cursor: "pointer",
-                    fontSize: 20,
-                    userSelect: "none"
-                  }}
-                  onClick={() => handleRemoveZone(zone)}
-                  title="ลบเขตนี้"
-                >
-                  ×
-                </span>
               </span>
             ))}
-            {/* Dropdown */}
-            {showZoneList && (
-              <div
-                style={{
-                  position: "absolute",
-                  left: 0,
-                  top: 48,
-                  background: "rgb(255, 145, 94)",
-                  borderRadius: 14,
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-                  zIndex: 10,
-                  minWidth: 320,
-                  padding: 16,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 12
-                }}
-              >
-                <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
-                  <input
-                    type="text"
-                    placeholder="ค้นหา"
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                    style={{
-                      flex: 1,
-                      borderRadius: 6,
-                      border: "1px solid #eee",
-                      padding: "6px 12px",
-                      fontSize: 16
-                    }}
-                  />
-                </div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                  {filteredZones.length === 0 && (
-                    <span style={{ color: "#888" }}>ไม่พบเขต</span>
-                  )}
-                  {filteredZones.map((zone) => (
-                    <button
-                      key={zone}
-                      type="button"
-                      style={{
-                        background: "#fff",
-                        border: "none",
-                        borderRadius: 10,
-                        padding: "6px 16px",
-                        fontWeight: 500,
-                        fontSize: 16,
-                        cursor: "pointer",
-                        boxShadow: "0 1px 2px rgba(0,0,0,0.04)"
-                      }}
-                      onClick={() => handleSelectZone(zone)}
-                    >
-                      {zone}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
           <div className="management-list">
             {pagedApplications.map((app, idx) => (
