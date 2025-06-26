@@ -261,6 +261,13 @@ app.post("/apply-internship", upload.fields([
   const transcriptPath = files?.transcript?.[0]?.path;
   const portfolioPath = files?.portfolio?.[0]?.path;
   try {
+    // ตรวจสอบว่ามีใบสมัครนี้อยู่แล้วหรือยัง
+    const exist = await prisma.internshipApplication.findFirst({
+      where: { userId: Number(userId), internshipId: Number(internshipId) }
+    });
+    if (exist) {
+      return res.status(400).json({ error: "คุณได้สมัครฝึกงานนี้ไปแล้ว ไม่สามารถสมัครซ้ำได้" });
+    }
     const application = await prisma.internshipApplication.create({
       data: {
         userId: Number(userId),

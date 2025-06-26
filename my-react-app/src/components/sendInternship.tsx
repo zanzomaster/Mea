@@ -58,7 +58,7 @@ const SendInternship: React.FC = () => {
       setTranscript(null);
       setPortfolio(null);
     } else {
-      alert("เกิดข้อผิดพลาดในการส่งใบสมัคร");
+      alert("คุณได้สมัครฝึกงานนี้ไปแล้ว ไม่สามารถสมัครซ้ำได้");
     }
   };
 
