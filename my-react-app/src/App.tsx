@@ -22,7 +22,7 @@ import SendInternship from "./components/sendInternship";
 import SendManagement from "./components/sendManagement";
 import AddLocation from "./components/addLocation";
 import EditInternship from "./components/editInternship";
-
+import Status from "./components/status";
 
 function App() {
   // state สำหรับจำลองการล็อกอิน
@@ -74,6 +74,7 @@ function App() {
         <Route path="/sendmanagement/:id" element={<SendManagement />} />
         <Route path="/add-location" element={<AddLocation />} />
         <Route path="/edit-internship/:id" element={<EditInternship />} />
+        <Route path="/status" element={<Status />} />
         {/* เพิ่มเส้นทางอื่น ๆ ตามต้องการ */}
       </Routes>
     </Router>

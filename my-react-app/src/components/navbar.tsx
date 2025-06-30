@@ -64,6 +64,9 @@ const Navbar = ({
         {user?.role === "ADMIN" && (
           <Link to="/management" className="navbar-menu-item">การจัดการ</Link>
         )}
+                        {user?.role === "ADMIN" && (
+                  <Link to="/status" className="navbar-menu-item">สถานะใบสมัคร</Link>
+                )}
       </div>
 
       {/* Right: Buttons */}
