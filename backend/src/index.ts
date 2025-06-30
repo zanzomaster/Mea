@@ -332,7 +332,8 @@ app.get("/internship-applications/internship/:internshipId", async (req: Request
 app.put("/internship-applications/:id/status", async (req: Request, res: Response) => {
   const id = Number(req.params.id);
   const { status, adminId } = req.body;
-  if (!["accept", "reject"].includes(status)) {
+  // รองรับ finished เพิ่ม
+  if (!["accept", "reject", "finished"].includes(status)) {
     return res.status(400).json({ error: "สถานะไม่ถูกต้อง" });
   }
   try {
@@ -382,6 +383,14 @@ app.put("/internship-applications/:id/status", async (req: Request, res: Respons
           userId: updated.userId,
           title: "ผลการสมัครฝึกงาน",
           message: `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณถูกปฏิเสธ`,
+        },
+      });
+    } else if (status === "finished") {
+      await prisma.mailbox.create({
+        data: {
+          userId: updated.userId,
+          title: "สถานะฝึกงาน",
+          message: `คุณได้ฝึกงานที่ ${updated.internship.office} เสร็จสิ้นแล้ว`,
         },
       });
     }

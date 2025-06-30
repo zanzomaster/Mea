@@ -49,10 +49,10 @@ const Status: React.FC = () => {
                 <td style={{ padding: 8 }}>{app.internship.location || "-"}</td>
                 <td style={{ padding: 8 }}>{app.createdAt.slice(0, 10)}</td>
                 <td style={{ padding: 8, fontWeight: 600, color:
-                  app.status === "accept" ? "#4caf50" :
+                  app.status === "accept" || app.status === "finished" ? "#4caf50" :
                   app.status === "reject" ? "#f44336" : "#ff9800"
                 }}>
-                  {app.status === "accept" && "ตอบรับแล้ว"}
+                  {(app.status === "accept" || app.status === "finished") && "ตอบรับแล้ว"}
                   {app.status === "reject" && "ปฏิเสธ"}
                   {app.status == null && "รอดำเนินการ"}
                 </td>
@@ -80,7 +80,7 @@ const Status: React.FC = () => {
                         ฝึกเสร็จแล้ว
                       </button>
                     </>
-                  ) : app.status === "reject" ? "ไม่ได้ฝึก" : "-"}
+                  ) : app.status === "reject" ? "ไม่ได้ฝึก" : app.status === "finished" ? "ฝึกเสร็จแล้ว" : "-"}
                 </td>
               </tr>
             ))}
