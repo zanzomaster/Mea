@@ -288,7 +288,7 @@ app.get("/internship-applications", async (req: Request, res: Response) => {
   try {
     const applications = await prisma.internshipApplication.findMany({
       include: {
-        user: true,
+        user: { include: { profile: true } }, // include profile ด้วย
         internship: true
       },
       orderBy: { createdAt: "desc" }
