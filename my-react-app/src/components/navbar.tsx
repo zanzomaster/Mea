@@ -65,7 +65,7 @@ const Navbar = ({
           <Link to="/management" className="navbar-menu-item">การจัดการ</Link>
         )}
                         {user?.role === "ADMIN" && (
-                  <Link to="/status" className="navbar-menu-item">สถานะใบสมัคร</Link>
+                  <Link to="/status" className="navbar-menu-item">สถานะการฝึกงาน</Link>
                 )}
       </div>
 
