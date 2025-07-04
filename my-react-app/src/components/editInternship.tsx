@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import "./addLocation.css";
 
 type InternshipType = {
   id: number;
@@ -22,13 +23,23 @@ const EditInternship: React.FC = () => {
     address: "",
     count: undefined,
   });
+  const [zones, setZones] = useState<{ id: number; name: string }[]>([]);
+  const [adminZoneIds, setAdminZoneIds] = useState<number[]>([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5000/zones")
+      .then((res) => res.json())
+      .then((data) => setZones(data));
+    const ids = JSON.parse(localStorage.getItem("adminZoneIds") || "[]");
+    setAdminZoneIds(ids);
+  }, []);
 
   useEffect(() => {
     if (!id) return;
     fetch(`http://localhost:5000/internships`)
-      .then(res => res.json())
+      .then((res) => res.json())
       .then((list: InternshipType[]) => {
-        const found = list.find(item => item.id === Number(id));
+        const found = list.find((item) => item.id === Number(id));
         if (found) {
           setData(found);
           setForm({
@@ -43,9 +54,19 @@ const EditInternship: React.FC = () => {
       });
   }, [id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  // Auto-select เขตเดียวถ้ามีสิทธิ์แค่ 1 เขต
+  useEffect(() => {
+    if (adminZoneIds.length === 1 && zones.length > 0) {
+      const zone = zones.find((z) => z.id === adminZoneIds[0]);
+      if (zone) setForm((f) => ({ ...f, location: zone.name }));
+    }
+  }, [adminZoneIds, zones]);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setForm(f => ({
+    setForm((f) => ({
       ...f,
       [name]: name === "count" ? Number(value) : value,
     }));
@@ -61,7 +82,7 @@ const EditInternship: React.FC = () => {
     });
     if (res.ok) {
       alert("แก้ไขข้อมูลฝึกงานสำเร็จ");
-      navigate(-1); // กลับหน้าก่อนหน้า
+      navigate(-1);
     } else {
       alert("เกิดข้อผิดพลาดในการแก้ไขข้อมูล");
     }
@@ -71,60 +92,57 @@ const EditInternship: React.FC = () => {
   if (!data) return <div style={{ padding: 40 }}>ไม่พบข้อมูลฝึกงาน</div>;
 
   return (
-    <div style={{ maxWidth: 500, margin: "40px auto", background: "#fff", padding: 24, borderRadius: 8 }}>
-      <h2>แก้ไขข้อมูลฝึกงาน</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: 12 }}>
-          <label>ชื่อสถานที่ฝึกงาน</label>
-          <input
-            type="text"
-            name="office"
-            value={form.office}
-            onChange={handleChange}
-            required
-            style={{ width: "100%", padding: 8, marginTop: 4 }}
-          />
-        </div>
-        <div style={{ marginBottom: 12 }}>
-          <label>รายละเอียด</label>
-          <textarea
-            name="desc"
-            value={form.desc}
-            onChange={handleChange}
-            style={{ width: "100%", padding: 8, marginTop: 4 }}
-          />
-        </div>
-        <div style={{ marginBottom: 12 }}>
-          <label>เขต/Location</label>
-          <input
-            type="text"
-            name="location"
-            value={form.location}
-            onChange={handleChange}
-            style={{ width: "100%", padding: 8, marginTop: 4 }}
-          />
-        </div>
-        <div style={{ marginBottom: 12 }}>
-          <label>ที่อยู่</label>
-          <input
-            type="text"
-            name="address"
-            value={form.address}
-            onChange={handleChange}
-            style={{ width: "100%", padding: 8, marginTop: 4 }}
-          />
-        </div>
-        <div style={{ marginBottom: 12 }}>
-          <label>จำนวนรับ</label>
-          <input
-            type="number"
-            name="count"
-            value={form.count ?? ""}
-            onChange={handleChange}
-            style={{ width: "100%", padding: 8, marginTop: 4 }}
-          />
-        </div>
-        <button type="submit" style={{ background: "#f47c20", color: "#fff", padding: "8px 24px", border: "none", borderRadius: 4 }}>
+    <div className="add-location-bg">
+      <form className="add-location-form" onSubmit={handleSubmit}>
+        <h2 style={{ textAlign: "center", marginBottom: 24 }}>แก้ไขข้อมูลฝึกงาน</h2>
+        <label>สถานที่ฝึกงาน / ที่อยู่*</label>
+        <input
+          className="add-location-input"
+          name="office"
+          placeholder="สถานที่ฝึกงาน / ที่อยู่"
+          value={form.office}
+          onChange={handleChange}
+          required
+        />
+        <label style={{ marginTop: 14 }}>รายละเอียด</label>
+        <textarea
+          className="add-location-input"
+          name="desc"
+          value={form.desc}
+          onChange={handleChange}
+        />
+        <label style={{ marginTop: 14 }}>หน่วยงาน</label>
+        <select
+          className="add-location-input"
+          name="location"
+          value={form.location}
+          onChange={handleChange}
+          required
+          disabled={adminZoneIds.length === 1}
+        >
+          <option value="">-- เลือกหน่วยงาน --</option>
+          {zones
+            .filter((z) => adminZoneIds.includes(z.id))
+            .map((zone) => (
+              <option key={zone.id} value={zone.name}>
+                {zone.name}
+              </option>
+            ))}
+        </select>
+        <label style={{ marginTop: 14 }}>จำนวนรับ</label>
+        <input
+          className="add-location-input"
+          type="number"
+          name="count"
+          min={1}
+          value={form.count ?? ""}
+          onChange={handleChange}
+        />
+        <button
+          className="add-location-btn"
+          type="submit"
+          style={{ marginTop: 24, width: "100%" }}
+        >
           บันทึก
         </button>
       </form>

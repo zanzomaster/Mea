@@ -6,7 +6,6 @@ const AddLocation: React.FC = () => {
   const [office, setOffice] = useState("");
   const [desc, setDesc] = useState("");
   const [location, setLocation] = useState("");
-  const [address, setAddress] = useState("");
   const [count, setCount] = useState<number | "">("");
   const [error, setError] = useState("");
   const [zones, setZones] = useState<{id: number, name: string}[]>([]);
@@ -41,7 +40,7 @@ const AddLocation: React.FC = () => {
       const res = await fetch("http://localhost:5000/internships", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ office, desc, location, address, count: count ? Number(count) : null }),
+        body: JSON.stringify({ office, desc, location, address: "", count: count ? Number(count) : null }),
       });
       if (res.ok) {
         alert("เพิ่มข้อมูลฝึกงานสำเร็จ");
@@ -59,26 +58,30 @@ const AddLocation: React.FC = () => {
     <div className="add-location-bg">
       <form className="add-location-form" onSubmit={handleSubmit}>
         <h2 style={{ textAlign: "center", marginBottom: 24 }}>เพิ่มสถานที่ฝึกงาน</h2>
-        <label>ชื่อสถานที่ฝึกงาน*</label>
-        <input className="add-location-input" value={office} onChange={e => setOffice(e.target.value)} required />
-        <label>รายละเอียด</label>
+        <label>สถานที่ฝึกงาน / ที่อยู่*</label>
+        <input
+          className="add-location-input"
+          placeholder="สถานที่ฝึกงาน / ที่อยู่"
+          value={office}
+          onChange={e => setOffice(e.target.value)}
+          required
+        />
+        <label style={{ marginTop: 14 }}>รายละเอียด</label>
         <textarea className="add-location-input" value={desc} onChange={e => setDesc(e.target.value)} />
-        <label>เขต/โซน</label>
+        <label style={{ marginTop: 14 }}>หน่วยงาน</label>
         <select
           className="add-location-input"
           value={location}
           onChange={e => setLocation(e.target.value)}
           required
-          disabled={adminZoneIds.length === 1} // disable ถ้ามีสิทธิ์แค่ 1 เขต
+          disabled={adminZoneIds.length === 1}
         >
-          <option value="">-- เลือกเขต --</option>
+          <option value="">-- เลือกหน่วยงาน --</option>
           {zones.filter(z => adminZoneIds.includes(z.id)).map(zone => (
             <option key={zone.id} value={zone.name}>{zone.name}</option>
           ))}
         </select>
-        <label>ที่อยู่</label>
-        <input className="add-location-input" value={address} onChange={e => setAddress(e.target.value)} />
-        <label>จำนวนรับ</label>
+        <label style={{ marginTop: 14 }}>จำนวนรับ</label>
         <input className="add-location-input" type="number" min={1} value={count} onChange={e => setCount(e.target.value ? Number(e.target.value) : "")} />
         {error && <div style={{ color: "red", marginTop: 8 }}>{error}</div>}
         <button className="add-location-btn" type="submit" style={{ marginTop: 24, width: "100%" }}>บันทึก</button>
