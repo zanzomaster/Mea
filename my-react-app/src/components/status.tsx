@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 // ประเภทข้อมูลใบสมัคร
 interface Application {
   id: number;
-  user: { name: string; profile?: { internshipStart?: string; internshipEnd?: string } };
+  user: { id: number; name: string; profile?: { internshipStart?: string; internshipEnd?: string } };
   internship: { office: string; location?: string };
   status?: string;
   createdAt: string;
@@ -17,6 +17,7 @@ const Status: React.FC = () => {
   const [yearRange, setYearRange] = useState<{start: string, end: string}>({start: "", end: ""});
   const [statusFilter, setStatusFilter] = useState<string>("");
   const [internshipStatusFilter, setInternshipStatusFilter] = useState<string>("");
+  const [certificateUserId, setCertificateUserId] = useState<number | null>(null);
 
   useEffect(() => {
     fetch("http://localhost:5000/zones")
@@ -94,6 +95,7 @@ const Status: React.FC = () => {
               <th style={{ padding: 8, textAlign: "left", width: 160 }}>สถานะฝึกงาน</th>
               <th style={{ padding: 8, textAlign: "left", width: 120 }}>วันที่เริ่ม</th>
               <th style={{ padding: 8, textAlign: "left", width: 120 }}>วันที่จบ</th>
+              <th style={{ padding: 8, textAlign: "left", width: 120 }}>ใบประกาศ</th>
             </tr>
           </thead>
           <tbody>
@@ -179,11 +181,45 @@ const Status: React.FC = () => {
                     </td>
                     <td style={{ padding: 8 }}>{app.user.profile?.internshipStart ? app.user.profile.internshipStart.slice(0, 10) : "-"}</td>
                     <td style={{ padding: 8 }}>{app.user.profile?.internshipEnd ? app.user.profile.internshipEnd.slice(0, 10) : "-"}</td>
+                    <td style={{ padding: 8 }}>
+                      {showStatus === "finished" && (
+                        <>
+                          <button onClick={() => setCertificateUserId(app.user.id)}>
+                            ดูใบประกาศ
+                          </button>
+                          <button
+                            style={{ marginLeft: 8 }}
+                            onClick={async () => {
+                              await fetch("http://localhost:5000/mailbox/certificate", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({
+                                  userId: app.user.id,
+                                  certificateUrl: `${window.location.origin}/certificate/${app.user.id}`
+                                })
+                              });
+                              alert("ส่งใบ certificate ไปที่ mailbox แล้ว");
+                            }}
+                          >
+                            ส่งใบ certificate
+                          </button>
+                        </>
+                      )}
+                    </td>
                   </tr>
                 );
               })}
           </tbody>
         </table>
+      )}
+      {/* Modal แสดงใบประกาศ */}
+      {certificateUserId && (
+        <div className="modal-bg" onClick={() => setCertificateUserId(null)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <img src={`http://localhost:5000/certificate/${certificateUserId}`} alt="certificate" style={{ maxWidth: 600 }} />
+            <button onClick={() => setCertificateUserId(null)}>ปิด</button>
+          </div>
+        </div>
       )}
     </div>
   );

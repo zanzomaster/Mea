@@ -47,7 +47,19 @@ const Mailbox: React.FC = () => {
               }}
             >
               <span style={{ fontWeight: 600 }}>{mail.title}</span>
-              <span style={{ marginTop: 6 }}>{mail.message}</span>
+              <span style={{ marginTop: 6 }}>
+                {mail.message.includes("/certificate/") ? (
+                  <span>
+                    {mail.message.split(/(https?:\/\/\S+)/g).map((part, i) =>
+                      part.startsWith("http") ? (
+                        <a key={i} href={part} target="_blank" rel="noopener noreferrer" style={{ color: '#1976d2', textDecoration: 'underline' }}>
+                          คลิกเพื่อดูใบประกาศนียบัตรของคุณ
+                        </a>
+                      ) : part
+                    )}
+                  </span>
+                ) : mail.message}
+              </span>
               <span style={{ fontSize: 12, color: "#888", marginTop: 8 }}>
                 {new Date(mail.createdAt).toLocaleString()}
               </span>

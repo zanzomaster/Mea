@@ -479,6 +479,26 @@ app.post("/zones", async (req: Request, res: Response) => {
   }
 });
 
+// ส่ง certificate mail ไปยัง mailbox ของ user
+app.post("/mailbox/certificate", async (req: Request, res: Response) => {
+  const { userId, certificateUrl } = req.body;
+  if (!userId || !certificateUrl) {
+    return res.status(400).json({ error: "ต้องระบุ userId และ certificateUrl" });
+  }
+  try {
+    const mail = await prisma.mailbox.create({
+      data: {
+        userId: Number(userId),
+        title: "ใบประกาศนียบัตรฝึกงาน",
+        message: `ใบประกาศนียบัตร: ${certificateUrl}`,
+      },
+    });
+    res.json({ message: "ส่งใบ certificate สำเร็จ", mail });
+  } catch (error) {
+    res.status(400).json({ error: "เกิดข้อผิดพลาดในการส่ง certificate" });
+  }
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

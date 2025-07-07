@@ -23,6 +23,7 @@ import SendManagement from "./components/sendManagement";
 import AddLocation from "./components/addLocation";
 import EditInternship from "./components/editInternship";
 import Status from "./components/status";
+import Certificate from "./components/certificate";
 
 function App() {
   // state สำหรับจำลองการล็อกอิน
@@ -75,6 +76,8 @@ function App() {
         <Route path="/add-location" element={<AddLocation />} />
         <Route path="/edit-internship/:id" element={<EditInternship />} />
         <Route path="/status" element={<Status />} />
+        <Route path="/certificate/:userId" element={<Certificate />} />
+        <Route path="/certificate" element={<Certificate />} />
         {/* เพิ่มเส้นทางอื่น ๆ ตามต้องการ */}
       </Routes>
     </Router>
