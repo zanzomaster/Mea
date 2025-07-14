@@ -24,6 +24,8 @@ import AddLocation from "./components/addLocation";
 import EditInternship from "./components/editInternship";
 import Status from "./components/status";
 import Certificate from "./components/certificate";
+import FileSave from "./components/fileSave";
+import FileSavePerApplication from "./components/FileSavePerApplication";
 
 function App() {
   // state สำหรับจำลองการล็อกอิน
@@ -78,6 +80,8 @@ function App() {
         <Route path="/status" element={<Status />} />
         <Route path="/certificate/:userId" element={<Certificate />} />
         <Route path="/certificate" element={<Certificate />} />
+        <Route path="/admin/files" element={<FileSave />} />
+        <Route path="/files/:applicationId" element={<FileSavePerApplication />} />
         {/* เพิ่มเส้นทางอื่น ๆ ตามต้องการ */}
       </Routes>
     </Router>

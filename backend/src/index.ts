@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import cors from "cors"; // <--- เพิ่มบรรทัดนี้
 import path from "path";
 import multer from "multer";
+import fs from "fs";
 
 const app = express();
 const prisma = new PrismaClient();
@@ -338,8 +339,8 @@ app.get("/internship-applications/internship/:internshipId", async (req: Request
 app.put("/internship-applications/:id/status", async (req: Request, res: Response) => {
   const id = Number(req.params.id);
   const { status, adminId } = req.body;
-  // รองรับ finished เพิ่ม
-  if (!["accept", "reject", "finished"].includes(status)) {
+  // รองรับ finished และ cancel เพิ่ม
+  if (!["accept", "reject", "finished", "cancel"].includes(status)) {
     return res.status(400).json({ error: "สถานะไม่ถูกต้อง" });
   }
   try {
@@ -348,6 +349,21 @@ app.put("/internship-applications/:id/status", async (req: Request, res: Respons
       data: { status },
       include: { user: true, internship: true }
     });
+
+    // ถ้า status เป็น accept ให้ cancel ใบสมัครอื่นของ user เดียวกัน (รวมถึงที่ status == null)
+    if (status === "accept") {
+      await prisma.internshipApplication.updateMany({
+        where: {
+          userId: updated.userId,
+          id: { not: updated.id },
+          OR: [
+            { status: null },
+            { status: { notIn: ["accept", "reject", "finished", "cancel"] } }
+          ]
+        },
+        data: { status: "cancel" }
+      });
+    }
 
     let deletedInternship = false;
     // ถ้ากดรับ ให้ลด count ของ internship ลง 1
@@ -397,6 +413,14 @@ app.put("/internship-applications/:id/status", async (req: Request, res: Respons
           userId: updated.userId,
           title: "สถานะฝึกงาน",
           message: `คุณได้ฝึกงานที่ ${updated.internship.office} เสร็จสิ้นแล้ว`,
+        },
+      });
+    } else if (status === "cancel") {
+      await prisma.mailbox.create({
+        data: {
+          userId: updated.userId,
+          title: "ผลการสมัครฝึกงาน",
+          message: `ใบสมัครฝึกงานที่ ${updated.internship.office} ของคุณถูกยกเลิก`,
         },
       });
     }
@@ -503,6 +527,58 @@ app.post("/mailbox/certificate", async (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).json({ error: "เกิดข้อผิดพลาดในการส่ง certificate" });
   }
+});
+
+// เพิ่ม endpoint สำหรับไฟล์ admin
+app.post("/admin-files", upload.array("files"), async (req: Request, res: Response) => {
+  const files = req.files as Express.Multer.File[];
+  if (!files || files.length === 0) return res.status(400).json({ error: "No files uploaded" });
+  // save file info to a json file (or db)
+  let fileList: any[] = [];
+  const fileListPath = "uploads/admin-files.json";
+  if (fs.existsSync(fileListPath)) {
+    fileList = JSON.parse(fs.readFileSync(fileListPath, "utf8"));
+  }
+  files.forEach(f => {
+    fileList.push({ name: f.originalname, path: f.path });
+  });
+  fs.writeFileSync(fileListPath, JSON.stringify(fileList, null, 2));
+  res.json({ message: "Uploaded", files });
+});
+
+app.get("/admin-files", async (req: Request, res: Response) => {
+  const fileListPath = "uploads/admin-files.json";
+  let fileList: any[] = [];
+  if (fs.existsSync(fileListPath)) {
+    fileList = JSON.parse(fs.readFileSync(fileListPath, "utf8"));
+  }
+  res.json(fileList);
+});
+
+app.post("/application-files/:applicationId", upload.array("files"), async (req: Request, res: Response) => {
+  const applicationId = req.params.applicationId;
+  const files = req.files as Express.Multer.File[];
+  if (!files || files.length === 0) return res.status(400).json({ error: "No files uploaded" });
+  let fileList: any[] = [];
+  const fileListPath = `uploads/application-files-${applicationId}.json`;
+  if (fs.existsSync(fileListPath)) {
+    fileList = JSON.parse(fs.readFileSync(fileListPath, "utf8"));
+  }
+  files.forEach(f => {
+    fileList.push({ name: f.originalname, path: f.path });
+  });
+  fs.writeFileSync(fileListPath, JSON.stringify(fileList, null, 2));
+  res.json({ message: "Uploaded", files });
+});
+
+app.get("/application-files/:applicationId", async (req: Request, res: Response) => {
+  const applicationId = req.params.applicationId;
+  const fileListPath = `uploads/application-files-${applicationId}.json`;
+  let fileList: any[] = [];
+  if (fs.existsSync(fileListPath)) {
+    fileList = JSON.parse(fs.readFileSync(fileListPath, "utf8"));
+  }
+  res.json(fileList);
 });
 
 const port = process.env.PORT || 5000;
