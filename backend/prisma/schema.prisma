@@ -18,6 +18,7 @@ model User {
   applications InternshipApplication[] // <-- เพิ่มบรรทัดนี้
   createdAt   DateTime     @default(now())
   Mailboxs   Mailbox[]   // เพิ่มบรรทัดนี้
+  zones Zone[] @relation("AdminZones") // เพิ่ม relation many-to-many admin-zone
 }
 
 model Profile {
@@ -34,6 +35,8 @@ model Profile {
   englishLevel  String?
   internshipStart DateTime? // เพิ่ม
   internshipEnd   DateTime? // เพิ่ม
+  advisorName     String?   // เพิ่มชื่ออาจารย์ที่ปรึกษา
+  advisorPhone    String?   // เพิ่มเบอร์โทรอาจารย์ที่ปรึกษา
   // เพิ่ม field อื่นๆ ตามที่ต้องการ
 }
 
@@ -64,6 +67,7 @@ model Zone {
   id    Int    @id @default(autoincrement())
   name  String @unique
   offices Office[]
+  users User[] @relation("AdminZones") // เพิ่ม relation many-to-many admin-zone
 }
 
 model Office {

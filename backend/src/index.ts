@@ -121,7 +121,9 @@ app.post("/profile", async (req: Request, res: Response) => {
     phone,
     englishLevel,
     internshipStart,
-    internshipEnd
+    internshipEnd,
+    advisorName,
+    advisorPhone
   } = req.body;
   if (!userId) {
     return res.status(400).json({ error: "กรุณาระบุ userId" });
@@ -140,6 +142,8 @@ app.post("/profile", async (req: Request, res: Response) => {
         englishLevel,
         internshipStart: internshipStart ? new Date(internshipStart) : null,
         internshipEnd: internshipEnd ? new Date(internshipEnd) : null,
+        advisorName,
+        advisorPhone
       },
       create: {
         userId,
@@ -153,6 +157,8 @@ app.post("/profile", async (req: Request, res: Response) => {
         englishLevel,
         internshipStart: internshipStart ? new Date(internshipStart) : null,
         internshipEnd: internshipEnd ? new Date(internshipEnd) : null,
+        advisorName,
+        advisorPhone
       },
     });
     res.json({ message: "บันทึกโปรไฟล์สำเร็จ", profile });
