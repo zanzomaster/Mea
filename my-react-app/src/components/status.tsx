@@ -184,9 +184,7 @@ const Status: React.FC = () => {
                     <td style={{ padding: 8 }}>
                       {showStatus === "finished" && (
                         <>
-                          <button onClick={() => setCertificateUserId(app.user.id)}>
-                            ดูใบประกาศ
-                          </button>
+    
                           <button
                             style={{ marginLeft: 8 }}
                             onClick={async () => {

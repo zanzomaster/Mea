@@ -7,6 +7,8 @@ const Certificate = () => {
   const certRef = useRef<HTMLDivElement>(null);
   const { userId } = useParams();
   const [fullName, setFullName] = useState<string>("");
+  const [internshipStart, setInternshipStart] = useState<string>("");
+  const [internshipEnd, setInternshipEnd] = useState<string>("");
 
   useEffect(() => {
     if (userId) {
@@ -16,6 +18,14 @@ const Certificate = () => {
           if (data) {
             setFullName(
               `${data.firstName || ""} ${data.lastName || ""}`.trim()
+            );
+            setInternshipStart(
+              data.internshipStart
+                ? data.internshipStart.slice(0, 10)
+                : ""
+            );
+            setInternshipEnd(
+              data.internshipEnd ? data.internshipEnd.slice(0, 10) : ""
             );
           }
         });
@@ -70,10 +80,13 @@ const Certificate = () => {
             fontSize: "2rem",
             fontWeight: "bold",
             pointerEvents: "none",
+            width: "90%",
+            textAlign: "center",
+            whiteSpace: "pre-line",
           }}
         >
           {userId && fullName
-            ? `Certificate for ${fullName}`
+            ? `Certificate for ${fullName}\nวันที่เริ่มฝึกงาน: ${internshipStart}\nวันที่สิ้นสุดฝึกงาน: ${internshipEnd}`
             : userId
             ? `Certificate for User ID: ${userId}`
             : "ข้อความที่ต้องการพิมพ์"}

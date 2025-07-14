@@ -18,6 +18,8 @@ const Profile: React.FC = () => {
     phone: "",
     internshipStart: "",
     internshipEnd: "",
+    advisorName: "", // เพิ่มช่องชื่ออาจารย์ที่ปรึกษา
+    advisorPhone: "" // เพิ่มช่องเบอร์โทรอาจารย์ที่ปรึกษา
   });
 
   // โหลดข้อมูลโปรไฟล์
@@ -32,6 +34,8 @@ const Profile: React.FC = () => {
             birthDate: data.birthDate ? data.birthDate.slice(0, 10) : "",
             internshipStart: data.internshipStart ? data.internshipStart.slice(0, 10) : "",
             internshipEnd: data.internshipEnd ? data.internshipEnd.slice(0, 10) : "",
+            advisorName: data.advisorName || "",
+            advisorPhone: data.advisorPhone || "",
           }));
         }
       });
@@ -144,6 +148,14 @@ const Profile: React.FC = () => {
               <label>วันที่สิ้นสุดฝึกงาน</label>
               <input className="profile-input" type="date" name="internshipEnd" value={form.internshipEnd} onChange={handleChange} />
             </div>
+          </div>
+          <div>
+            <label>ชื่ออาจารย์ที่ปรึกษา</label>
+            <input className="profile-input--long" name="advisorName" value={form.advisorName} onChange={handleChange} />
+          </div>
+          <div>
+            <label>เบอร์โทรอาจารย์ที่ปรึกษา</label>
+            <input className="profile-input--long" name="advisorPhone" value={form.advisorPhone} onChange={handleChange} />
           </div>
           <div className="profile-form-row" style={{ justifyContent: "flex-end" }}>
             <button type="submit" className="profile-submit-btn">ตกลง</button>
