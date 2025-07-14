@@ -10,7 +10,7 @@ type ApplicationType = {
   createdAt: string;
   user: { name: string };
   internship: { office: string; location?: string };
-  status?: "accept" | "reject" | null;
+  status?: "accept" | "reject" | "cancel" | null;
   // เพิ่ม field อื่นๆ ตาม schema
 };
 
@@ -176,6 +176,13 @@ const Management = () => {
                         <path d="M9 6l6 6-6 6" />
                       </svg>
                     )}
+                    {app.status === "cancel" && (
+                      <svg width="28" height="28" fill="none" stroke="#f44336" strokeWidth="3" viewBox="0 0 24 24">
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                        <line x1="6" y1="18" x2="18" y2="6" />
+                      </svg>
+                    )}
+                    
                   </span>
                   <span
                     className="management-status-text"
@@ -191,6 +198,7 @@ const Management = () => {
                   >
                     {app.status === "accept" && "ตอบรับแล้ว"}
                     {app.status === "reject" && "ปฏิเสธ"}
+                    {app.status === "cancel" && "ยกเลิก"}
                   </span>
                 </span>
               </div>
