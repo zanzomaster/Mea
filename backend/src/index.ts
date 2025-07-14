@@ -351,19 +351,16 @@ app.put("/internship-applications/:id/status", async (req: Request, res: Respons
     });
 
     // ถ้า status เป็น accept ให้ cancel ใบสมัครอื่นของ user เดียวกัน (รวมถึงที่ status == null)
-    if (status === "accept") {
-      await prisma.internshipApplication.updateMany({
-        where: {
-          userId: updated.userId,
-          id: { not: updated.id },
-          OR: [
-            { status: null },
-            { status: { notIn: ["accept", "reject", "finished", "cancel"] } }
-          ]
-        },
-        data: { status: "cancel" }
-      });
-    }
+if (status === "accept") {
+  await prisma.internshipApplication.updateMany({
+    where: {
+      userId: updated.userId,
+      id: { not: updated.id },
+      status: null
+    },
+    data: { status: "cancel" }
+  });
+}
 
     let deletedInternship = false;
     // ถ้ากดรับ ให้ลด count ของ internship ลง 1
