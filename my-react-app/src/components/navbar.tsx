@@ -38,7 +38,7 @@ const Navbar = ({
             className="navbar-logo"
           />
           <div>
-            <div className="navbar-subtitle">เว็บไซต์ของฝึกงาน</div>
+            <div className="navbar-subtitle">เว็บไซต์ฝึกงาน</div>
             <div className="navbar-title">การไฟฟ้านครหลวง</div>
             <div className="navbar-en-title">Metropolitan Electricity Authority</div>
           </div>
