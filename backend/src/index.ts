@@ -578,7 +578,36 @@ app.get("/application-files/:applicationId", async (req: Request, res: Response)
   res.json(fileList);
 });
 
+app.delete("/application-files/:applicationId/:fileName", async (req: Request, res: Response) => {
+  const { applicationId, fileName } = req.params;
+  const fileListPath = `uploads/application-files-${applicationId}.json`;
+
+  if (!fs.existsSync(fileListPath)) {
+    return res.status(404).json({ error: "File list not found" });
+  }
+
+  let fileList: any[] = JSON.parse(fs.readFileSync(fileListPath, "utf8"));
+  const targetFile = fileList.find(f => f.name === fileName);
+
+  if (!targetFile) {
+    return res.status(404).json({ error: "File not found in list" });
+  }
+
+  // ลบไฟล์จากระบบไฟล์จริง
+  try {
+    fs.unlinkSync(path.resolve(targetFile.path));
+  } catch (err) {
+    console.error("Error deleting file:", err);
+  }
+
+  // ลบจาก JSON
+  fileList = fileList.filter(f => f.name !== fileName);
+  fs.writeFileSync(fileListPath, JSON.stringify(fileList, null, 2));
+  res.json({ message: "Deleted" });
+});
+
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
+
