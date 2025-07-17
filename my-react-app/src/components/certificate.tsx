@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import html2canvas from "html2canvas";
-import colorWhite from "../assets/Color-white.jpg";
+import certificate from "../assets/S__47480898_0.jpg";
 
 const Certificate = () => {
   const certRef = useRef<HTMLDivElement>(null);
@@ -20,9 +20,7 @@ const Certificate = () => {
               `${data.firstName || ""} ${data.lastName || ""}`.trim()
             );
             setInternshipStart(
-              data.internshipStart
-                ? data.internshipStart.slice(0, 10)
-                : ""
+              data.internshipStart ? data.internshipStart.slice(0, 10) : ""
             );
             setInternshipEnd(
               data.internshipEnd ? data.internshipEnd.slice(0, 10) : ""
@@ -31,6 +29,19 @@ const Certificate = () => {
         });
     }
   }, [userId]);
+
+  const formatDate = (isoDate: string): string => {
+    const date = new Date(isoDate);
+    const day = date.getDate();
+    const monthNames = [
+      "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน",
+      "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม",
+      "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม",
+    ];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear() + 543;
+    return `${day} ${month} ${year}`;
+  };
 
   const handleSave = async () => {
     if (certRef.current) {
@@ -61,37 +72,55 @@ const Certificate = () => {
         }}
       >
         <img
-          src={colorWhite}
+          src={certificate}
           alt="Certificate"
           style={{
             width: 800,
-            height: 400,
+            height: 1200,
             objectFit: "cover",
             display: "block",
           }}
         />
+
+        {/* ชื่อ */}
         <div
           style={{
             position: "absolute",
             top: "40%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            color: "black",
-            fontSize: "2rem",
+            fontSize: "2.5rem",
             fontWeight: "bold",
+            color: "black",
             pointerEvents: "none",
-            width: "90%",
             textAlign: "center",
-            whiteSpace: "pre-line",
+            width: "100%",
           }}
         >
-          {userId && fullName
-            ? `Certificate for ${fullName}\nวันที่เริ่มฝึกงาน: ${internshipStart}\nวันที่สิ้นสุดฝึกงาน: ${internshipEnd}`
-            : userId
-            ? `Certificate for User ID: ${userId}`
-            : "ข้อความที่ต้องการพิมพ์"}
+          {fullName}
+        </div>
+
+        {/* ช่วงวันที่ */}
+        <div
+          style={{
+            position: "absolute",
+            top: "51%", // อยู่ต่ำกว่าชื่อ
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            fontSize: "1.8rem",
+            fontWeight: "bold",
+            color: "black",
+            pointerEvents: "none",
+            textAlign: "center",
+            width: "100%",
+          }}
+        >
+          {internshipStart && internshipEnd
+            ? `ระหว่างวันที่ ${formatDate(internshipStart)} ถึงวันที่ ${formatDate(internshipEnd)}`
+            : ""}
         </div>
       </div>
+
       <button onClick={handleSave} style={{ marginTop: 10 }}>
         Save as Image
       </button>
