@@ -45,7 +45,7 @@ app.post("/users", async (req: Request, res: Response) => {
         name,
         email,
         password,
-        role: role || "admin"
+        role: role || "USER"
       }
     });
 
