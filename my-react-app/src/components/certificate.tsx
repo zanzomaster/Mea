@@ -9,9 +9,11 @@ const Certificate = () => {
   const [fullName, setFullName] = useState<string>("");
   const [internshipStart, setInternshipStart] = useState<string>("");
   const [internshipEnd, setInternshipEnd] = useState<string>("");
+  const [issueDate, setIssueDate] = useState<string>("");
 
   useEffect(() => {
     if (userId) {
+      // ดึงโปรไฟล์
       fetch(`http://localhost:5000/profile?userId=${userId}`)
         .then((res) => (res.ok ? res.json() : null))
         .then((data) => {
@@ -25,6 +27,18 @@ const Certificate = () => {
             setInternshipEnd(
               data.internshipEnd ? data.internshipEnd.slice(0, 10) : ""
             );
+          }
+        });
+
+      // ดึง mailbox หาใบ certificate
+      fetch(`http://localhost:5000/mailbox?userId=${userId}`)
+        .then((res) => (res.ok ? res.json() : []))
+        .then((mails) => {
+          const certMail = mails.find((m: any) =>
+            m.title?.includes("ใบประกาศนียบัตรฝึกงาน")
+          );
+          if (certMail?.createdAt) {
+            setIssueDate(certMail.createdAt.slice(0, 10));
           }
         });
     }
@@ -104,7 +118,7 @@ const Certificate = () => {
         <div
           style={{
             position: "absolute",
-            top: "51%", // อยู่ต่ำกว่าชื่อ
+            top: "51%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             fontSize: "1.8rem",
@@ -119,6 +133,26 @@ const Certificate = () => {
             ? `ระหว่างวันที่ ${formatDate(internshipStart)} ถึงวันที่ ${formatDate(internshipEnd)}`
             : ""}
         </div>
+
+        {/* วันที่ออก certificate */}
+        {issueDate && (
+          <div
+            style={{
+              position: "absolute",
+              top: "66%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              fontSize: "2rem",
+              fontWeight: "bold",
+              color: "black",
+              pointerEvents: "none",
+              textAlign: "center",
+              width: "100%",
+            }}
+          >
+             {formatDate(issueDate)}
+          </div>
+        )}
       </div>
 
       <button onClick={handleSave} style={{ marginTop: 10 }}>
