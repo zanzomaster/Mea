@@ -86,7 +86,7 @@ const Certificate = () => {
         <div
           style={{
             position: "absolute",
-            top: "40%",
+            top: "41%",
             left: "50%",
             transform: "translate(-50%, -50%)",
             fontSize: "2.5rem",
